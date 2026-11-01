@@ -1,1 +1,2272 @@
+<!DOCTYPE html>
+<html lang="vi" class="dark"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lớp Chuyên Toán Thầy Mẫn - Trình Chiếu ex_test &amp; Báo Điểm Google Form</title>
 
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: { 50: '#eef2ff', 100: '#e0e7ff', 500: '#6366f1', 600: '#4f46e5', 700: '#4338ca', 900: '#312e81' },
+            fuchsia: { 500: '#d946ef', 600: '#c026d3' }
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            mono: ['JetBrains Mono', 'Consolas', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Google Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- TikJax Engine -->
+  <link rel="stylesheet" type="text/css" href="https://tikzjax.com/v1/fonts.css">
+  <script src="https://tikzjax.com/v1/tikzjax.js"></script>
+
+  <!-- MathJax 3 -->
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true
+      },
+      options: { skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code', 'annotation', 'annotation-xml'] }
+    };
+  </script>
+  <script id="MathJax-script" async="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+
+  <style>
+    :root, body[data-theme="cyber"] {
+      --bg-main: #020617;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --card-bg: rgba(15, 23, 42, 0.78);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --card-border-hover: rgba(255, 255, 255, 0.18);
+      --nav-bg: rgba(2, 6, 23, 0.92);
+      --box-bg: rgba(30, 41, 59, 0.5);
+      --box-border: rgba(255, 255, 255, 0.1);
+      --glow-1: radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 0.18) 0%, rgba(0, 0, 0, 0) 65%);
+      --glow-2: radial-gradient(circle at 50% 50%, rgba(217, 70, 239, 0.14) 0%, rgba(0, 0, 0, 0) 65%);
+      --glow-3: radial-gradient(circle at 50% 50%, rgba(14, 165, 233, 0.12) 0%, rgba(0, 0, 0, 0) 65%);
+      --input-bg: rgba(15, 23, 42, 0.6);
+      --dropdown-bg: rgba(15, 23, 42, 0.98);
+      --solution-bg: rgba(245, 158, 11, 0.1);
+      --solution-border: rgba(245, 158, 11, 0.4);
+      --logo-bg: #020617;
+      --timer-bg: rgba(30, 41, 59, 0.5);
+      --timer-border: rgba(255, 255, 255, 0.1);
+      --math-color: #3b82f6; /* Xanh dương rực rỡ */
+    }
+
+    body[data-theme="aurora"] {
+      --bg-main: #0d0722;
+      --text-main: #fae8ff;
+      --text-muted: #c084fc;
+      --card-bg: rgba(24, 15, 52, 0.82);
+      --card-border: rgba(217, 70, 239, 0.22);
+      --card-border-hover: rgba(217, 70, 239, 0.45);
+      --nav-bg: rgba(13, 7, 34, 0.94);
+      --box-bg: rgba(45, 26, 84, 0.5);
+      --box-border: rgba(217, 70, 239, 0.2);
+      --glow-1: radial-gradient(circle at 50% 50%, rgba(168, 85, 247, 0.25) 0%, rgba(0, 0, 0, 0) 65%);
+      --glow-2: radial-gradient(circle at 50% 50%, rgba(236, 72, 153, 0.22) 0%, rgba(0, 0, 0, 0) 65%);
+      --glow-3: radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 0.2) 0%, rgba(0, 0, 0, 0) 65%);
+      --input-bg: rgba(24, 15, 52, 0.7);
+      --dropdown-bg: rgba(24, 15, 52, 0.98);
+      --solution-bg: rgba(217, 70, 239, 0.12);
+      --solution-border: rgba(217, 70, 239, 0.4);
+      --logo-bg: #0d0722;
+      --timer-bg: rgba(45, 26, 84, 0.5);
+      --timer-border: rgba(217, 70, 239, 0.25);
+      --math-color: #60a5fa; /* Xanh da trời sáng */
+    }
+
+    body[data-theme="pearl"] {
+      --bg-main: #f1f5f9;
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --card-bg: rgba(255, 255, 255, 0.92);
+      --card-border: rgba(203, 213, 225, 0.8);
+      --card-border-hover: rgba(99, 102, 241, 0.5);
+      --nav-bg: rgba(255, 255, 255, 0.95);
+      --box-bg: rgba(248, 250, 252, 0.95);
+      --box-border: rgba(203, 213, 225, 0.8);
+      --glow-1: radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 0.1) 0%, rgba(0, 0, 0, 0) 65%);
+      --glow-2: radial-gradient(circle at 50% 50%, rgba(217, 70, 239, 0.08) 0%, rgba(0, 0, 0, 0) 65%);
+      --glow-3: radial-gradient(circle at 50% 50%, rgba(14, 165, 233, 0.08) 0%, rgba(0, 0, 0, 0) 65%);
+      --input-bg: #ffffff;
+      --dropdown-bg: rgba(255, 255, 255, 0.98);
+      --solution-bg: rgba(245, 158, 11, 0.12);
+      --solution-border: rgba(217, 119, 6, 0.4);
+      --logo-bg: #ffffff;
+      --timer-bg: rgba(226, 232, 240, 0.7);
+      --timer-border: rgba(148, 163, 184, 0.4);
+      --math-color: #1d4ed8; /* Xanh dương đậm sắc nét */
+    }
+
+    html, body {
+      height: 100%;
+      width: 100%;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+    }
+
+    body { 
+      background-color: var(--bg-main); 
+      color: var(--text-main); 
+      font-family: 'Inter', sans-serif; 
+      transition: background-color 0.3s ease, color 0.3s ease; 
+    }
+
+    /* TÔ MÀU XANH BẮT BUỘC CHO TOÀN BỘ CÔNG THỨC TOÁN MATHJAX */
+    mjx-container, mjx-container *, .mjx-chtml, .mjx-chtml *, .MathJax, .MathJax * {
+      color: var(--math-color) !important;
+      font-weight: 500;
+    }
+
+    .theme-box {
+      background-color: var(--box-bg);
+      border: 1px solid var(--box-border);
+      transition: background-color 0.3s ease, border-color 0.3s ease;
+    }
+
+    .theme-input {
+      background-color: var(--input-bg);
+      color: var(--text-main);
+      border: 1px solid var(--box-border);
+      transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+    }
+
+    .theme-text-muted { color: var(--text-muted); }
+
+    .ambient-glow-1 { position: fixed; top: -20%; left: -10%; width: 70vw; height: 70vw; background: var(--glow-1); pointer-events: none; z-index: 0; animation: float1 15s ease-in-out infinite alternate; }
+    .ambient-glow-2 { position: fixed; bottom: -20%; right: -10%; width: 80vw; height: 80vw; background: var(--glow-2); pointer-events: none; z-index: 0; animation: float2 20s ease-in-out infinite alternate; }
+    .ambient-glow-3 { position: fixed; top: 20%; left: 20%; width: 60vw; height: 60vw; background: var(--glow-3); pointer-events: none; z-index: 0; animation: float3 18s ease-in-out infinite alternate; }
+    
+    @keyframes float1 { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(5%, 5%) scale(1.1); } }
+    @keyframes float2 { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(-5%, -5%) scale(1.15); } }
+    @keyframes float3 { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(3%, -4%) scale(1.05); } }
+
+    .glass-card { 
+      background: var(--card-bg); 
+      backdrop-filter: blur(24px); 
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid var(--card-border); 
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 20px 40px -15px rgba(0, 0, 0, 0.15); 
+      transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+    .glass-card:hover { border-color: var(--card-border-hover); }
+    
+    .glass-nav { 
+      background: var(--nav-bg); 
+      backdrop-filter: blur(16px); 
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--card-border); 
+      transition: background-color 0.3s ease, border-color 0.3s ease;
+    }
+    
+    .tex-list-enum { list-style-type: decimal; padding-left: 1.5rem; margin: 0.4rem 0; }
+    .tex-list-item { list-style-type: disc; padding-left: 1.5rem; margin: 0.4rem 0; }
+    .tex-list-enum li, .tex-list-item li { margin-bottom: 0.35rem; line-height: 1.55; }
+    .tex-list-enum li::marker, .tex-list-item li::marker { color: #38bdf8; font-weight: 700; }
+    
+    .tikz-container svg { max-width: 100%; max-height: 52vh; height: auto; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.15)); border-radius: 12px; background: #ffffff; padding: 10px; }
+    .tikz-img-container img { max-height: 380px; width: auto; max-width: 100%; object-fit: contain; border-radius: 12px; background: #ffffff; padding: 6px; box-shadow: 0 4px 12px rgba(0,0,0,0.12); }
+
+    .mjx-chtml { outline: none !important; }
+    
+    mjx-container[display="true"], .mjx-chtml.MJXc-display {
+        overflow-x: auto !important;
+        overflow-y: hidden !important;
+        max-width: 100%;
+        padding-bottom: 4px;
+        margin: 0.4em 0 !important;
+    }
+
+    .slide-viewport { transition: opacity 0.15s ease-in-out, transform 0.15s ease-in-out; }
+    
+    button { transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
+    button:active { transform: scale(0.96); }
+
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: rgba(15, 23, 42, 0.2); border-radius: 4px; }
+    ::-webkit-scrollbar-thumb { background: rgba(99, 102, 241, 0.5); border-radius: 4px; }
+  </style>
+<style>*, ::before, ::after{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }/* ! tailwindcss v3.4.17 | MIT License | https://tailwindcss.com */*,::after,::before{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}::after,::before{--tw-content:''}:host,html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-family:Inter, system-ui, sans-serif;font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:JetBrains Mono, Consolas, monospace;font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;letter-spacing:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,input:where([type=button]),input:where([type=reset]),input:where([type=submit]){-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0;padding:0}legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]:where(:not([hidden=until-found])){display:none}.pointer-events-none{pointer-events:none}.fixed{position:fixed}.absolute{position:absolute}.relative{position:relative}.sticky{position:sticky}.inset-0{inset:0px}.bottom-12{bottom:3rem}.right-0{right:0px}.right-4{right:1rem}.top-0{top:0px}.z-10{z-index:10}.z-40{z-index:40}.z-50{z-index:50}.mx-0\.5{margin-left:0.125rem;margin-right:0.125rem}.my-0\.5{margin-top:0.125rem;margin-bottom:0.125rem}.my-3{margin-top:0.75rem;margin-bottom:0.75rem}.mb-0\.5{margin-bottom:0.125rem}.mb-1{margin-bottom:0.25rem}.mb-2{margin-bottom:0.5rem}.ml-1{margin-left:0.25rem}.mr-1{margin-right:0.25rem}.mr-1\.5{margin-right:0.375rem}.mt-0\.5{margin-top:0.125rem}.mt-1{margin-top:0.25rem}.mt-2{margin-top:0.5rem}.mt-auto{margin-top:auto}.block{display:block}.flex{display:flex}.grid{display:grid}.hidden{display:none}.h-2{height:0.5rem}.h-2\.5{height:0.625rem}.h-6{height:1.5rem}.h-8{height:2rem}.h-full{height:100%}.h-screen{height:100vh}.h-0\.5{height:0.125rem}.max-h-\[92vh\]{max-height:92vh}.min-h-screen{min-height:100vh}.w-0{width:0px}.w-1\/3{width:33.333333%}.w-2\.5{width:0.625rem}.w-56{width:14rem}.w-6{width:1.5rem}.w-8{width:2rem}.w-full{width:100%}.w-20{width:5rem}.max-w-3xl{max-width:48rem}.max-w-4xl{max-width:56rem}.max-w-5xl{max-width:64rem}.flex-1{flex:1 1 0%}.shrink-0{flex-shrink:0}@keyframes bounce{0%, 100%{transform:translateY(-25%);animation-timing-function:cubic-bezier(0.8,0,1,1)}50%{transform:none;animation-timing-function:cubic-bezier(0,0,0.2,1)}}.animate-bounce{animation:bounce 1s infinite}@keyframes spin{to{transform:rotate(360deg)}}.animate-spin{animation:spin 1s linear infinite}@keyframes pulse{50%{opacity:.5}}.animate-pulse{animation:pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite}.cursor-pointer{cursor:pointer}.grid-cols-1{grid-template-columns:repeat(1, minmax(0, 1fr))}.grid-cols-2{grid-template-columns:repeat(2, minmax(0, 1fr))}.flex-col{flex-direction:column}.flex-wrap{flex-wrap:wrap}.items-center{align-items:center}.justify-end{justify-content:flex-end}.justify-center{justify-content:center}.justify-between{justify-content:space-between}.gap-1{gap:0.25rem}.gap-1\.5{gap:0.375rem}.gap-2{gap:0.5rem}.gap-2\.5{gap:0.625rem}.gap-3{gap:0.75rem}.gap-4{gap:1rem}.space-y-1\.5 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(0.375rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(0.375rem * var(--tw-space-y-reverse))}.space-y-2 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(0.5rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(0.5rem * var(--tw-space-y-reverse))}.space-y-2\.5 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(0.625rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(0.625rem * var(--tw-space-y-reverse))}.space-y-3 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(0.75rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(0.75rem * var(--tw-space-y-reverse))}.space-y-1 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(0.25rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(0.25rem * var(--tw-space-y-reverse))}.space-y-4 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(1rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(1rem * var(--tw-space-y-reverse))}.overflow-hidden{overflow:hidden}.overflow-y-auto{overflow-y:auto}.rounded{border-radius:0.25rem}.rounded-2xl{border-radius:1rem}.rounded-\[6px\]{border-radius:6px}.rounded-full{border-radius:9999px}.rounded-lg{border-radius:0.5rem}.rounded-md{border-radius:0.375rem}.rounded-xl{border-radius:0.75rem}.border{border-width:1px}.border-2{border-width:2px}.border-b{border-bottom-width:1px}.border-l-4{border-left-width:4px}.border-t{border-top-width:1px}.border-amber-400\/50{border-color:rgb(251 191 36 / 0.5)}.border-amber-500\/20{border-color:rgb(245 158 11 / 0.2)}.border-amber-500\/30{border-color:rgb(245 158 11 / 0.3)}.border-amber-500\/40{border-color:rgb(245 158 11 / 0.4)}.border-brand-500{--tw-border-opacity:1;border-color:rgb(99 102 241 / var(--tw-border-opacity, 1))}.border-brand-500\/30{border-color:rgb(99 102 241 / 0.3)}.border-cyan-500\/30{border-color:rgb(6 182 212 / 0.3)}.border-cyan-500\/40{border-color:rgb(6 182 212 / 0.4)}.border-emerald-500\/30{border-color:rgb(16 185 129 / 0.3)}.border-emerald-500\/40{border-color:rgb(16 185 129 / 0.4)}.border-emerald-500\/50{border-color:rgb(16 185 129 / 0.5)}.border-fuchsia-500\/40{border-color:rgb(217 70 239 / 0.4)}.border-indigo-500\/40{border-color:rgb(99 102 241 / 0.4)}.border-slate-500\/20{border-color:rgb(100 116 139 / 0.2)}.border-slate-500\/30{border-color:rgb(100 116 139 / 0.3)}.border-slate-700{--tw-border-opacity:1;border-color:rgb(51 65 85 / var(--tw-border-opacity, 1))}.border-slate-700\/20{border-color:rgb(51 65 85 / 0.2)}.border-amber-500\/50{border-color:rgb(245 158 11 / 0.5)}.border-brand-500\/40{border-color:rgb(99 102 241 / 0.4)}.border-slate-700\/50{border-color:rgb(51 65 85 / 0.5)}.border-l-amber-500{--tw-border-opacity:1;border-left-color:rgb(245 158 11 / var(--tw-border-opacity, 1))}.bg-amber-500{--tw-bg-opacity:1;background-color:rgb(245 158 11 / var(--tw-bg-opacity, 1))}.bg-amber-500\/20{background-color:rgb(245 158 11 / 0.2)}.bg-amber-600{--tw-bg-opacity:1;background-color:rgb(217 119 6 / var(--tw-bg-opacity, 1))}.bg-brand-500{--tw-bg-opacity:1;background-color:rgb(99 102 241 / var(--tw-bg-opacity, 1))}.bg-brand-500\/20{background-color:rgb(99 102 241 / 0.2)}.bg-brand-600{--tw-bg-opacity:1;background-color:rgb(79 70 229 / var(--tw-bg-opacity, 1))}.bg-cyan-500\/20{background-color:rgb(6 182 212 / 0.2)}.bg-cyan-600{--tw-bg-opacity:1;background-color:rgb(8 145 178 / var(--tw-bg-opacity, 1))}.bg-emerald-500{--tw-bg-opacity:1;background-color:rgb(16 185 129 / var(--tw-bg-opacity, 1))}.bg-emerald-500\/20{background-color:rgb(16 185 129 / 0.2)}.bg-emerald-600{--tw-bg-opacity:1;background-color:rgb(5 150 105 / var(--tw-bg-opacity, 1))}.bg-emerald-900\/40{background-color:rgb(6 78 59 / 0.4)}.bg-purple-950{--tw-bg-opacity:1;background-color:rgb(59 7 100 / var(--tw-bg-opacity, 1))}.bg-slate-100{--tw-bg-opacity:1;background-color:rgb(241 245 249 / var(--tw-bg-opacity, 1))}.bg-slate-500{--tw-bg-opacity:1;background-color:rgb(100 116 139 / var(--tw-bg-opacity, 1))}.bg-slate-500\/20{background-color:rgb(100 116 139 / 0.2)}.bg-slate-700{--tw-bg-opacity:1;background-color:rgb(51 65 85 / var(--tw-bg-opacity, 1))}.bg-slate-800{--tw-bg-opacity:1;background-color:rgb(30 41 59 / var(--tw-bg-opacity, 1))}.bg-slate-950{--tw-bg-opacity:1;background-color:rgb(2 6 23 / var(--tw-bg-opacity, 1))}.bg-slate-950\/80{background-color:rgb(2 6 23 / 0.8)}.bg-slate-950\/85{background-color:rgb(2 6 23 / 0.85)}.bg-amber-500\/10{background-color:rgb(245 158 11 / 0.1)}.bg-slate-900\/60{background-color:rgb(15 23 42 / 0.6)}.bg-gradient-to-r{background-image:linear-gradient(to right, var(--tw-gradient-stops))}.bg-gradient-to-tr{background-image:linear-gradient(to top right, var(--tw-gradient-stops))}.from-amber-400{--tw-gradient-from:#fbbf24 var(--tw-gradient-from-position);--tw-gradient-to:rgb(251 191 36 / 0) var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), var(--tw-gradient-to)}.from-brand-500{--tw-gradient-from:#6366f1 var(--tw-gradient-from-position);--tw-gradient-to:rgb(99 102 241 / 0) var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), var(--tw-gradient-to)}.from-brand-600{--tw-gradient-from:#4f46e5 var(--tw-gradient-from-position);--tw-gradient-to:rgb(79 70 229 / 0) var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), var(--tw-gradient-to)}.from-brand-600\/20{--tw-gradient-from:rgb(79 70 229 / 0.2) var(--tw-gradient-from-position);--tw-gradient-to:rgb(79 70 229 / 0) var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), var(--tw-gradient-to)}.from-brand-500\/10{--tw-gradient-from:rgb(99 102 241 / 0.1) var(--tw-gradient-from-position);--tw-gradient-to:rgb(99 102 241 / 0) var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), var(--tw-gradient-to)}.from-transparent{--tw-gradient-from:transparent var(--tw-gradient-from-position);--tw-gradient-to:rgb(0 0 0 / 0) var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), var(--tw-gradient-to)}.via-fuchsia-500{--tw-gradient-to:rgb(217 70 239 / 0)  var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), #d946ef var(--tw-gradient-via-position), var(--tw-gradient-to)}.via-purple-500{--tw-gradient-to:rgb(168 85 247 / 0)  var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), #a855f7 var(--tw-gradient-via-position), var(--tw-gradient-to)}.via-purple-600\/20{--tw-gradient-to:rgb(147 51 234 / 0)  var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), rgb(147 51 234 / 0.2) var(--tw-gradient-via-position), var(--tw-gradient-to)}.via-brand-500{--tw-gradient-to:rgb(99 102 241 / 0)  var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), #6366f1 var(--tw-gradient-via-position), var(--tw-gradient-to)}.via-fuchsia-600{--tw-gradient-to:rgb(192 38 211 / 0)  var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), #c026d3 var(--tw-gradient-via-position), var(--tw-gradient-to)}.via-purple-500\/10{--tw-gradient-to:rgb(168 85 247 / 0)  var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), rgb(168 85 247 / 0.1) var(--tw-gradient-via-position), var(--tw-gradient-to)}.to-amber-400{--tw-gradient-to:#fbbf24 var(--tw-gradient-to-position)}.to-amber-500{--tw-gradient-to:#f59e0b var(--tw-gradient-to-position)}.to-amber-500\/20{--tw-gradient-to:rgb(245 158 11 / 0.2) var(--tw-gradient-to-position)}.to-cyan-400{--tw-gradient-to:#22d3ee var(--tw-gradient-to-position)}.to-fuchsia-500{--tw-gradient-to:#d946ef var(--tw-gradient-to-position)}.to-fuchsia-600{--tw-gradient-to:#c026d3 var(--tw-gradient-to-position)}.to-amber-500\/10{--tw-gradient-to:rgb(245 158 11 / 0.1) var(--tw-gradient-to-position)}.to-fuchsia-400{--tw-gradient-to:#e879f9 var(--tw-gradient-to-position)}.to-transparent{--tw-gradient-to:transparent var(--tw-gradient-to-position)}.bg-clip-text{-webkit-background-clip:text;background-clip:text}.p-0\.5{padding:0.125rem}.p-1{padding:0.25rem}.p-1\.5{padding:0.375rem}.p-2{padding:0.5rem}.p-2\.5{padding:0.625rem}.p-3{padding:0.75rem}.p-3\.5{padding:0.875rem}.p-4{padding:1rem}.p-5{padding:1.25rem}.px-1\.5{padding-left:0.375rem;padding-right:0.375rem}.px-2{padding-left:0.5rem;padding-right:0.5rem}.px-2\.5{padding-left:0.625rem;padding-right:0.625rem}.px-3{padding-left:0.75rem;padding-right:0.75rem}.px-4{padding-left:1rem;padding-right:1rem}.px-5{padding-left:1.25rem;padding-right:1.25rem}.py-0\.5{padding-top:0.125rem;padding-bottom:0.125rem}.py-1{padding-top:0.25rem;padding-bottom:0.25rem}.py-1\.5{padding-top:0.375rem;padding-bottom:0.375rem}.py-2{padding-top:0.5rem;padding-bottom:0.5rem}.px-8{padding-left:2rem;padding-right:2rem}.py-3{padding-top:0.75rem;padding-bottom:0.75rem}.px-3\.5{padding-left:0.875rem;padding-right:0.875rem}.pb-1{padding-bottom:0.25rem}.pb-1\.5{padding-bottom:0.375rem}.pb-2{padding-bottom:0.5rem}.pb-3{padding-bottom:0.75rem}.pr-1{padding-right:0.25rem}.pt-1{padding-top:0.25rem}.pt-2{padding-top:0.5rem}.text-left{text-align:left}.text-center{text-align:center}.text-right{text-align:right}.font-mono{font-family:JetBrains Mono, Consolas, monospace}.text-3xl{font-size:1.875rem;line-height:2.25rem}.text-\[10px\]{font-size:10px}.text-\[11px\]{font-size:11px}.text-\[5px\]{font-size:5px}.text-\[8px\]{font-size:8px}.text-\[9px\]{font-size:9px}.text-base{font-size:1rem;line-height:1.5rem}.text-lg{font-size:1.125rem;line-height:1.75rem}.text-sm{font-size:0.875rem;line-height:1.25rem}.text-xl{font-size:1.25rem;line-height:1.75rem}.text-xs{font-size:0.75rem;line-height:1rem}.font-black{font-weight:900}.font-bold{font-weight:700}.font-extrabold{font-weight:800}.font-medium{font-weight:500}.font-semibold{font-weight:600}.uppercase{text-transform:uppercase}.leading-none{line-height:1}.leading-relaxed{line-height:1.625}.leading-snug{line-height:1.375}.leading-tight{line-height:1.25}.tracking-tight{letter-spacing:-0.025em}.tracking-wider{letter-spacing:0.05em}.tracking-widest{letter-spacing:0.1em}.tracking-wide{letter-spacing:0.025em}.text-amber-400{--tw-text-opacity:1;color:rgb(251 191 36 / var(--tw-text-opacity, 1))}.text-amber-500{--tw-text-opacity:1;color:rgb(245 158 11 / var(--tw-text-opacity, 1))}.text-amber-600{--tw-text-opacity:1;color:rgb(217 119 6 / var(--tw-text-opacity, 1))}.text-brand-500{--tw-text-opacity:1;color:rgb(99 102 241 / var(--tw-text-opacity, 1))}.text-cyan-400{--tw-text-opacity:1;color:rgb(34 211 238 / var(--tw-text-opacity, 1))}.text-cyan-500{--tw-text-opacity:1;color:rgb(6 182 212 / var(--tw-text-opacity, 1))}.text-emerald-400{--tw-text-opacity:1;color:rgb(52 211 153 / var(--tw-text-opacity, 1))}.text-emerald-500{--tw-text-opacity:1;color:rgb(16 185 129 / var(--tw-text-opacity, 1))}.text-emerald-600{--tw-text-opacity:1;color:rgb(5 150 105 / var(--tw-text-opacity, 1))}.text-fuchsia-400{--tw-text-opacity:1;color:rgb(232 121 249 / var(--tw-text-opacity, 1))}.text-fuchsia-500{--tw-text-opacity:1;color:rgb(217 70 239 / var(--tw-text-opacity, 1))}.text-indigo-400{--tw-text-opacity:1;color:rgb(129 140 248 / var(--tw-text-opacity, 1))}.text-rose-400{--tw-text-opacity:1;color:rgb(251 113 133 / var(--tw-text-opacity, 1))}.text-slate-400{--tw-text-opacity:1;color:rgb(148 163 184 / var(--tw-text-opacity, 1))}.text-slate-800{--tw-text-opacity:1;color:rgb(30 41 59 / var(--tw-text-opacity, 1))}.text-slate-950{--tw-text-opacity:1;color:rgb(2 6 23 / var(--tw-text-opacity, 1))}.text-transparent{color:transparent}.text-white{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity, 1))}.opacity-50{opacity:0.5}.opacity-60{opacity:0.6}.opacity-70{opacity:0.7}.opacity-75{opacity:0.75}.opacity-90{opacity:0.9}.shadow{--tw-shadow:0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 1px 3px 0 var(--tw-shadow-color), 0 1px 2px -1px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-2xl{--tw-shadow:0 25px 50px -12px rgb(0 0 0 / 0.25);--tw-shadow-colored:0 25px 50px -12px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-inner{--tw-shadow:inset 0 2px 4px 0 rgb(0 0 0 / 0.05);--tw-shadow-colored:inset 0 2px 4px 0 var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-lg{--tw-shadow:0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-md{--tw-shadow:0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 4px 6px -1px var(--tw-shadow-color), 0 2px 4px -2px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-sm{--tw-shadow:0 1px 2px 0 rgb(0 0 0 / 0.05);--tw-shadow-colored:0 1px 2px 0 var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-xl{--tw-shadow:0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 20px 25px -5px var(--tw-shadow-color), 0 8px 10px -6px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.backdrop-blur-md{--tw-backdrop-blur:blur(12px);-webkit-backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia)}.backdrop-blur-xl{--tw-backdrop-blur:blur(24px);-webkit-backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia)}.transition-all{transition-property:all;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.transition-colors{transition-property:color, background-color, border-color, fill, stroke, -webkit-text-decoration-color;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke, -webkit-text-decoration-color;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.duration-200{transition-duration:200ms}.duration-300{transition-duration:300ms}.selection\:bg-brand-500 *::selection{--tw-bg-opacity:1;background-color:rgb(99 102 241 / var(--tw-bg-opacity, 1))}.selection\:text-white *::selection{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity, 1))}.selection\:bg-brand-500::selection{--tw-bg-opacity:1;background-color:rgb(99 102 241 / var(--tw-bg-opacity, 1))}.selection\:text-white::selection{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity, 1))}.hover\:scale-105:hover{--tw-scale-x:1.05;--tw-scale-y:1.05;transform:translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.hover\:border-amber-500:hover{--tw-border-opacity:1;border-color:rgb(245 158 11 / var(--tw-border-opacity, 1))}.hover\:border-brand-500\/50:hover{border-color:rgb(99 102 241 / 0.5)}.hover\:border-cyan-500:hover{--tw-border-opacity:1;border-color:rgb(6 182 212 / var(--tw-border-opacity, 1))}.hover\:border-cyan-500\/50:hover{border-color:rgb(6 182 212 / 0.5)}.hover\:border-emerald-500:hover{--tw-border-opacity:1;border-color:rgb(16 185 129 / var(--tw-border-opacity, 1))}.hover\:bg-amber-400:hover{--tw-bg-opacity:1;background-color:rgb(251 191 36 / var(--tw-bg-opacity, 1))}.hover\:bg-amber-500\/10:hover{background-color:rgb(245 158 11 / 0.1)}.hover\:bg-amber-500\/30:hover{background-color:rgb(245 158 11 / 0.3)}.hover\:bg-brand-500:hover{--tw-bg-opacity:1;background-color:rgb(99 102 241 / var(--tw-bg-opacity, 1))}.hover\:bg-brand-500\/10:hover{background-color:rgb(99 102 241 / 0.1)}.hover\:bg-emerald-500:hover{--tw-bg-opacity:1;background-color:rgb(16 185 129 / var(--tw-bg-opacity, 1))}.hover\:bg-fuchsia-500\/10:hover{background-color:rgb(217 70 239 / 0.1)}.hover\:bg-slate-600:hover{--tw-bg-opacity:1;background-color:rgb(71 85 105 / var(--tw-bg-opacity, 1))}.hover\:opacity-100:hover{opacity:1}.focus\:border-brand-500:focus{--tw-border-opacity:1;border-color:rgb(99 102 241 / var(--tw-border-opacity, 1))}.focus\:outline-none:focus{outline:2px solid transparent;outline-offset:2px}.focus\:ring-2:focus{--tw-ring-offset-shadow:var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);--tw-ring-shadow:var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);box-shadow:var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000)}.focus\:ring-amber-400:focus{--tw-ring-opacity:1;--tw-ring-color:rgb(251 191 36 / var(--tw-ring-opacity, 1))}.active\:scale-95:active{--tw-scale-x:.95;--tw-scale-y:.95;transform:translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.dark\:text-amber-300:is(.dark *){--tw-text-opacity:1;color:rgb(252 211 77 / var(--tw-text-opacity, 1))}.dark\:text-cyan-400:is(.dark *){--tw-text-opacity:1;color:rgb(34 211 238 / var(--tw-text-opacity, 1))}.dark\:text-emerald-300:is(.dark *){--tw-text-opacity:1;color:rgb(110 231 183 / var(--tw-text-opacity, 1))}.dark\:text-emerald-400:is(.dark *){--tw-text-opacity:1;color:rgb(52 211 153 / var(--tw-text-opacity, 1))}.dark\:text-fuchsia-400:is(.dark *){--tw-text-opacity:1;color:rgb(232 121 249 / var(--tw-text-opacity, 1))}@media (min-width: 640px){.sm\:inline-block{display:inline-block}.sm\:w-64{width:16rem}.sm\:grid-cols-3{grid-template-columns:repeat(3, minmax(0, 1fr))}.sm\:grid-cols-4{grid-template-columns:repeat(4, minmax(0, 1fr))}.sm\:text-left{text-align:left}.sm\:text-4xl{font-size:2.25rem;line-height:2.5rem}}@media (min-width: 768px){.md\:grid-cols-3{grid-template-columns:repeat(3, minmax(0, 1fr))}.md\:grid-cols-4{grid-template-columns:repeat(4, minmax(0, 1fr))}.md\:grid-cols-2{grid-template-columns:repeat(2, minmax(0, 1fr))}.md\:rounded-2xl{border-radius:1rem}.md\:p-2\.5{padding:0.625rem}.md\:p-4{padding:1rem}.md\:p-6{padding:1.5rem}.md\:px-5{padding-left:1.25rem;padding-right:1.25rem}.md\:text-base{font-size:1rem;line-height:1.5rem}.md\:text-lg{font-size:1.125rem;line-height:1.75rem}.md\:text-sm{font-size:0.875rem;line-height:1.25rem}.md\:text-xl{font-size:1.25rem;line-height:1.75rem}}@media (min-width: 1024px){.lg\:col-span-12{grid-column:span 12 / span 12}.lg\:col-span-5{grid-column:span 5 / span 5}.lg\:col-span-7{grid-column:span 7 / span 7}.lg\:grid-cols-12{grid-template-columns:repeat(12, minmax(0, 1fr))}.lg\:grid-cols-6{grid-template-columns:repeat(6, minmax(0, 1fr))}}</style><style type="text/css">.CtxtMenu_InfoClose {  top:.2em; right:.2em;}
+.CtxtMenu_InfoContent {  overflow:auto; text-align:left; font-size:80%;  padding:.4em .6em; border:1px inset; margin:1em 0px;  max-height:20em; max-width:30em; background-color:#EEEEEE;  white-space:normal;}
+.CtxtMenu_Info.CtxtMenu_MousePost {outline:none;}
+.CtxtMenu_Info {  position:fixed; left:50%; width:auto; text-align:center;  border:3px outset; padding:1em 2em; background-color:#DDDDDD;  color:black;  cursor:default; font-family:message-box; font-size:120%;  font-style:normal; text-indent:0; text-transform:none;  line-height:normal; letter-spacing:normal; word-spacing:normal;  word-wrap:normal; white-space:nowrap; float:none; z-index:201;  border-radius: 15px;                     /* Opera 10.5 and IE9 */  -webkit-border-radius:15px;               /* Safari and Chrome */  -moz-border-radius:15px;                  /* Firefox */  -khtml-border-radius:15px;                /* Konqueror */  box-shadow:0px 10px 20px #808080;         /* Opera 10.5 and IE9 */  -webkit-box-shadow:0px 10px 20px #808080; /* Safari 3 & Chrome */  -moz-box-shadow:0px 10px 20px #808080;    /* Forefox 3.5 */  -khtml-box-shadow:0px 10px 20px #808080;  /* Konqueror */  filter:progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color="gray", Positive="true"); /* IE */}
+</style><style type="text/css">.CtxtMenu_MenuClose {  position:absolute;  cursor:pointer;  display:inline-block;  border:2px solid #AAA;  border-radius:18px;  -webkit-border-radius: 18px;             /* Safari and Chrome */  -moz-border-radius: 18px;                /* Firefox */  -khtml-border-radius: 18px;              /* Konqueror */  font-family: "Courier New", Courier;  font-size:24px;  color:#F0F0F0}
+.CtxtMenu_MenuClose span {  display:block; background-color:#AAA; border:1.5px solid;  border-radius:18px;  -webkit-border-radius: 18px;             /* Safari and Chrome */  -moz-border-radius: 18px;                /* Firefox */  -khtml-border-radius: 18px;              /* Konqueror */  line-height:0;  padding:8px 0 6px     /* may need to be browser-specific */}
+.CtxtMenu_MenuClose:hover {  color:white!important;  border:2px solid #CCC!important}
+.CtxtMenu_MenuClose:hover span {  background-color:#CCC!important}
+.CtxtMenu_MenuClose:hover:focus {  outline:none}
+</style><style type="text/css">.CtxtMenu_Menu {  position:absolute;  background-color:white;  color:black;  width:auto; padding:5px 0px;  border:1px solid #CCCCCC; margin:0; cursor:default;  font: menu; text-align:left; text-indent:0; text-transform:none;  line-height:normal; letter-spacing:normal; word-spacing:normal;  word-wrap:normal; white-space:nowrap; float:none; z-index:201;  border-radius: 5px;                     /* Opera 10.5 and IE9 */  -webkit-border-radius: 5px;             /* Safari and Chrome */  -moz-border-radius: 5px;                /* Firefox */  -khtml-border-radius: 5px;              /* Konqueror */  box-shadow:0px 10px 20px #808080;         /* Opera 10.5 and IE9 */  -webkit-box-shadow:0px 10px 20px #808080; /* Safari 3 & Chrome */  -moz-box-shadow:0px 10px 20px #808080;    /* Forefox 3.5 */  -khtml-box-shadow:0px 10px 20px #808080;  /* Konqueror */}
+.CtxtMenu_MenuItem {  padding: 1px 2em;  background:transparent;}
+.CtxtMenu_MenuArrow {  position:absolute; right:.5em; padding-top:.25em; color:#666666;  font-family: null; font-size: .75em}
+.CtxtMenu_MenuActive .CtxtMenu_MenuArrow {color:white}
+.CtxtMenu_MenuArrow.CtxtMenu_RTL {left:.5em; right:auto}
+.CtxtMenu_MenuCheck {  position:absolute; left:.7em;  font-family: null}
+.CtxtMenu_MenuCheck.CtxtMenu_RTL { right:.7em; left:auto }
+.CtxtMenu_MenuRadioCheck {  position:absolute; left: .7em;}
+.CtxtMenu_MenuRadioCheck.CtxtMenu_RTL {  right: .7em; left:auto}
+.CtxtMenu_MenuInputBox {  padding-left: 1em; right:.5em; color:#666666;  font-family: null;}
+.CtxtMenu_MenuInputBox.CtxtMenu_RTL {  left: .1em;}
+.CtxtMenu_MenuComboBox {  left:.1em; padding-bottom:.5em;}
+.CtxtMenu_MenuSlider {  left: .1em;}
+.CtxtMenu_SliderValue {  position:absolute; right:.1em; padding-top:.25em; color:#333333;  font-size: .75em}
+.CtxtMenu_SliderBar {  outline: none; background: #d3d3d3}
+.CtxtMenu_MenuLabel {  padding: 1px 2em 3px 1.33em;  font-style:italic}
+.CtxtMenu_MenuRule {  border-top: 1px solid #DDDDDD;  margin: 4px 3px;}
+.CtxtMenu_MenuDisabled {  color:GrayText}
+.CtxtMenu_MenuActive {  background-color: #606872;  color: white;}
+.CtxtMenu_MenuDisabled:focus {  background-color: #E8E8E8}
+.CtxtMenu_MenuLabel:focus {  background-color: #E8E8E8}
+.CtxtMenu_ContextMenu:focus {  outline:none}
+.CtxtMenu_ContextMenu .CtxtMenu_MenuItem:focus {  outline:none}
+.CtxtMenu_SelectionMenu {  position:relative; float:left;  border-bottom: none; -webkit-box-shadow:none; -webkit-border-radius:0px; }
+.CtxtMenu_SelectionItem {  padding-right: 1em;}
+.CtxtMenu_Selection {  right: 40%; width:50%; }
+.CtxtMenu_SelectionBox {  padding: 0em; max-height:20em; max-width: none;  background-color:#FFFFFF;}
+.CtxtMenu_SelectionDivider {  clear: both; border-top: 2px solid #000000;}
+.CtxtMenu_Menu .CtxtMenu_MenuClose {  top:-10px; left:-10px}
+</style><style id="MJX-CHTML-styles">
+mjx-container[jax="CHTML"] {
+  line-height: 0;
+}
+
+mjx-container [space="1"] {
+  margin-left: .111em;
+}
+
+mjx-container [space="2"] {
+  margin-left: .167em;
+}
+
+mjx-container [space="3"] {
+  margin-left: .222em;
+}
+
+mjx-container [space="4"] {
+  margin-left: .278em;
+}
+
+mjx-container [space="5"] {
+  margin-left: .333em;
+}
+
+mjx-container [rspace="1"] {
+  margin-right: .111em;
+}
+
+mjx-container [rspace="2"] {
+  margin-right: .167em;
+}
+
+mjx-container [rspace="3"] {
+  margin-right: .222em;
+}
+
+mjx-container [rspace="4"] {
+  margin-right: .278em;
+}
+
+mjx-container [rspace="5"] {
+  margin-right: .333em;
+}
+
+mjx-container [size="s"] {
+  font-size: 70.7%;
+}
+
+mjx-container [size="ss"] {
+  font-size: 50%;
+}
+
+mjx-container [size="Tn"] {
+  font-size: 60%;
+}
+
+mjx-container [size="sm"] {
+  font-size: 85%;
+}
+
+mjx-container [size="lg"] {
+  font-size: 120%;
+}
+
+mjx-container [size="Lg"] {
+  font-size: 144%;
+}
+
+mjx-container [size="LG"] {
+  font-size: 173%;
+}
+
+mjx-container [size="hg"] {
+  font-size: 207%;
+}
+
+mjx-container [size="HG"] {
+  font-size: 249%;
+}
+
+mjx-container [width="full"] {
+  width: 100%;
+}
+
+mjx-box {
+  display: inline-block;
+}
+
+mjx-block {
+  display: block;
+}
+
+mjx-itable {
+  display: inline-table;
+}
+
+mjx-row {
+  display: table-row;
+}
+
+mjx-row > * {
+  display: table-cell;
+}
+
+mjx-mtext {
+  display: inline-block;
+}
+
+mjx-mstyle {
+  display: inline-block;
+}
+
+mjx-merror {
+  display: inline-block;
+  color: red;
+  background-color: yellow;
+}
+
+mjx-mphantom {
+  visibility: hidden;
+}
+
+_::-webkit-full-page-media, _:future, :root mjx-container {
+  will-change: opacity;
+}
+
+mjx-assistive-mml {
+  position: absolute !important;
+  top: 0px;
+  left: 0px;
+  clip: rect(1px, 1px, 1px, 1px);
+  padding: 1px 0px 0px 0px !important;
+  border: 0px !important;
+  display: block !important;
+  width: auto !important;
+  overflow: hidden !important;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+mjx-assistive-mml[display="block"] {
+  width: 100% !important;
+}
+
+mjx-c::before {
+  display: block;
+  width: 0;
+}
+
+.MJX-TEX {
+  font-family: MJXZERO, MJXTEX;
+}
+
+.TEX-B {
+  font-family: MJXZERO, MJXTEX-B;
+}
+
+.TEX-I {
+  font-family: MJXZERO, MJXTEX-I;
+}
+
+.TEX-MI {
+  font-family: MJXZERO, MJXTEX-MI;
+}
+
+.TEX-BI {
+  font-family: MJXZERO, MJXTEX-BI;
+}
+
+.TEX-S1 {
+  font-family: MJXZERO, MJXTEX-S1;
+}
+
+.TEX-S2 {
+  font-family: MJXZERO, MJXTEX-S2;
+}
+
+.TEX-S3 {
+  font-family: MJXZERO, MJXTEX-S3;
+}
+
+.TEX-S4 {
+  font-family: MJXZERO, MJXTEX-S4;
+}
+
+.TEX-A {
+  font-family: MJXZERO, MJXTEX-A;
+}
+
+.TEX-C {
+  font-family: MJXZERO, MJXTEX-C;
+}
+
+.TEX-CB {
+  font-family: MJXZERO, MJXTEX-CB;
+}
+
+.TEX-FR {
+  font-family: MJXZERO, MJXTEX-FR;
+}
+
+.TEX-FRB {
+  font-family: MJXZERO, MJXTEX-FRB;
+}
+
+.TEX-SS {
+  font-family: MJXZERO, MJXTEX-SS;
+}
+
+.TEX-SSB {
+  font-family: MJXZERO, MJXTEX-SSB;
+}
+
+.TEX-SSI {
+  font-family: MJXZERO, MJXTEX-SSI;
+}
+
+.TEX-SC {
+  font-family: MJXZERO, MJXTEX-SC;
+}
+
+.TEX-T {
+  font-family: MJXZERO, MJXTEX-T;
+}
+
+.TEX-V {
+  font-family: MJXZERO, MJXTEX-V;
+}
+
+.TEX-VB {
+  font-family: MJXZERO, MJXTEX-VB;
+}
+
+mjx-stretchy-v mjx-c, mjx-stretchy-h mjx-c {
+  font-family: MJXZERO, MJXTEX-S1, MJXTEX-S4, MJXTEX, MJXTEX-A ! important;
+}
+
+@font-face /* 0 */ {
+  font-family: MJXZERO;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Zero.woff") format("woff");
+}
+
+@font-face /* 1 */ {
+  font-family: MJXTEX;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Main-Regular.woff") format("woff");
+}
+
+@font-face /* 2 */ {
+  font-family: MJXTEX-B;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Main-Bold.woff") format("woff");
+}
+
+@font-face /* 3 */ {
+  font-family: MJXTEX-I;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Math-Italic.woff") format("woff");
+}
+
+@font-face /* 4 */ {
+  font-family: MJXTEX-MI;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Main-Italic.woff") format("woff");
+}
+
+@font-face /* 5 */ {
+  font-family: MJXTEX-BI;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Math-BoldItalic.woff") format("woff");
+}
+
+@font-face /* 6 */ {
+  font-family: MJXTEX-S1;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size1-Regular.woff") format("woff");
+}
+
+@font-face /* 7 */ {
+  font-family: MJXTEX-S2;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size2-Regular.woff") format("woff");
+}
+
+@font-face /* 8 */ {
+  font-family: MJXTEX-S3;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size3-Regular.woff") format("woff");
+}
+
+@font-face /* 9 */ {
+  font-family: MJXTEX-S4;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size4-Regular.woff") format("woff");
+}
+
+@font-face /* 10 */ {
+  font-family: MJXTEX-A;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_AMS-Regular.woff") format("woff");
+}
+
+@font-face /* 11 */ {
+  font-family: MJXTEX-C;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Calligraphic-Regular.woff") format("woff");
+}
+
+@font-face /* 12 */ {
+  font-family: MJXTEX-CB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Calligraphic-Bold.woff") format("woff");
+}
+
+@font-face /* 13 */ {
+  font-family: MJXTEX-FR;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Fraktur-Regular.woff") format("woff");
+}
+
+@font-face /* 14 */ {
+  font-family: MJXTEX-FRB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Fraktur-Bold.woff") format("woff");
+}
+
+@font-face /* 15 */ {
+  font-family: MJXTEX-SS;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Regular.woff") format("woff");
+}
+
+@font-face /* 16 */ {
+  font-family: MJXTEX-SSB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Bold.woff") format("woff");
+}
+
+@font-face /* 17 */ {
+  font-family: MJXTEX-SSI;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Italic.woff") format("woff");
+}
+
+@font-face /* 18 */ {
+  font-family: MJXTEX-SC;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Script-Regular.woff") format("woff");
+}
+
+@font-face /* 19 */ {
+  font-family: MJXTEX-T;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Typewriter-Regular.woff") format("woff");
+}
+
+@font-face /* 20 */ {
+  font-family: MJXTEX-V;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Vector-Regular.woff") format("woff");
+}
+
+@font-face /* 21 */ {
+  font-family: MJXTEX-VB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Vector-Bold.woff") format("woff");
+}
+</style></head>
+<body class="min-h-screen flex flex-col justify-between relative selection:bg-brand-500 selection:text-white" data-theme="pearl">
+
+  <div class="ambient-glow-1"></div>
+  <div class="ambient-glow-2"></div>
+  <div class="ambient-glow-3"></div>
+
+  <div class="relative z-10 flex flex-col h-screen overflow-hidden">
+    <!-- TOP BAR -->
+    <header class="glass-nav sticky top-0 z-40 px-3 py-1.5 md:px-5 shrink-0">
+      <div class="w-full flex flex-wrap items-center justify-between gap-2">
+        
+        <!-- Logo & Dynamic Title -->
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-brand-600 via-fuchsia-500 to-amber-400 p-0.5 shadow-lg flex items-center justify-center shrink-0">
+            <div class="w-full h-full rounded-[6px] flex flex-col items-center justify-center transition-colors duration-300" style="background-color: var(--logo-bg);">
+              <span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-fuchsia-500 font-black text-[10px] leading-none">MV</span>
+              <span class="text-[5px] theme-text-muted font-bold tracking-widest mt-0.5">MATH</span>
+            </div>
+          </div>
+          <div>
+            <h1 class="font-extrabold text-xs md:text-sm tracking-tight flex items-center gap-2 flex-wrap leading-tight">
+              <span class="bg-clip-text text-transparent bg-gradient-to-r from-brand-500 via-purple-500 to-amber-500 uppercase">Lớp Chuyên Toán Thầy Mẫn</span>
+              <span id="badge-app-mode" class="text-[9px] px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-500 border border-amber-500/40 font-semibold shadow-sm">ĐỀ MINH HỌA SỐ 04 GIỮA HỌC KỲ I (2026 - 2027)</span>
+              <span id="header-student-tag" class="hidden text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 font-bold shadow-sm">
+                <i class="fa-solid fa-user-graduate mr-1"></i> <span id="header-student-name">...</span>
+              </span>
+            </h1>
+            <p id="header-sub-info" class="text-[10px] opacity-90 font-medium flex items-center gap-1.5 mt-0.5 flex-wrap transition-all">
+              <span class="text-rose-400"><i class="fa-solid fa-location-dot"></i> 27 Nguyễn Đức Cảnh</span>
+              <span class="theme-text-muted opacity-50 mx-0.5">|</span>
+              <span id="header-dept-name" class="theme-text-muted">UBND phường Nghĩa Đô</span>
+              <span class="theme-text-muted opacity-50 mx-0.5">-</span>
+              <span id="header-school-name" class="text-emerald-500 dark:text-emerald-400 font-bold">TRƯỜNG THCS NGHĨA TÂN</span>
+              <span id="header-subject-name" class="text-cyan-500 dark:text-cyan-400">• Môn: Toán 9</span>
+            </p>
+          </div>
+        </div>
+
+        <!-- EXAM TIMER -->
+        <div id="exam-timer-box" class="flex items-center gap-2 px-2.5 py-0.5 rounded-lg border shadow-inner transition-colors duration-300" style="background-color: var(--timer-bg); border-color: var(--timer-border);">
+          <i class="fa-solid fa-stopwatch text-amber-500 text-xs animate-bounce"></i>
+          <div class="flex flex-col text-left">
+            <span class="text-[8px] uppercase font-bold theme-text-muted tracking-wider leading-none">Thời gian</span>
+            <span id="timer-display" class="font-mono text-xs font-extrabold text-amber-500 leading-tight">45:00</span>
+          </div>
+          <button id="btn-start-timer" onclick="app.startTimerManual()" class="ml-1 px-1.5 py-0.5 rounded text-[9px] font-bold bg-amber-500 hover:bg-amber-400 text-slate-950 shadow cursor-pointer">Bắt đầu</button>
+        </div>
+
+        <!-- Action Buttons, Fullscreen & Theme Selector -->
+        <div class="flex items-center gap-1.5 flex-wrap">
+          <button onclick="app.openTocModal()" class="px-2.5 py-1 rounded-lg text-xs font-bold glass-card hover:border-cyan-500/50 active:scale-95 transition-all cursor-pointer shadow text-cyan-400 flex items-center gap-1">
+            <i class="fa-solid fa-list-ol"></i> Mục Lục
+          </button>
+
+          <button onclick="app.toggleFullScreen()" class="px-2.5 py-1 rounded-lg text-xs font-bold glass-card hover:border-brand-500/50 active:scale-95 transition-all cursor-pointer shadow flex items-center gap-1" title="Phóng/Thu nhỏ toàn màn hình">
+            <i id="btn-fullscreen-icon" class="fa-solid fa-expand text-brand-400"></i>
+            <span id="btn-fullscreen-text" class="hidden sm:inline-block">Toàn màn hình</span>
+          </button>
+
+          <!-- 3-THEME DROPDOWN SELECTOR -->
+          <div class="relative" id="theme-dropdown-wrapper">
+            <button id="btn-theme-selector" onclick="app.toggleThemeMenu()" class="flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-bold glass-card hover:border-brand-500/50 active:scale-95 transition-all cursor-pointer shadow">
+              <span id="current-theme-icon" class="text-indigo-400"><i class="fa-solid fa-sun text-amber-500"></i></span>
+              <span id="current-theme-name" class="hidden sm:inline-block font-semibold">Ngọc Trai</span>
+              <i class="fa-solid fa-chevron-down text-[9px] opacity-60"></i>
+            </button>
+            
+            <div id="theme-menu" class="hidden absolute right-0 mt-2 w-56 glass-card rounded-2xl p-2 shadow-2xl z-50 border backdrop-blur-xl transition-all duration-200" style="background-color: var(--dropdown-bg); border-color: var(--card-border);">
+              <div class="text-[10px] font-extrabold uppercase px-2.5 py-1 theme-text-muted tracking-wider border-b border-slate-700/20 mb-1 flex items-center justify-between">
+                <span><i class="fa-solid fa-palette mr-1.5 text-brand-500"></i>Giao Diện</span>
+              </div>
+              <button onclick="app.setTheme('cyber')" id="theme-opt-cyber" class="w-full flex items-center justify-between px-3 py-1.5 rounded-xl text-xs font-medium transition-all hover:bg-brand-500/10 text-left my-0.5 group">
+                <div class="flex items-center gap-2">
+                  <div class="w-6 h-6 rounded-lg bg-slate-950 border border-indigo-500/40 flex items-center justify-center text-indigo-400 text-xs shadow-sm"><i class="fa-solid fa-moon"></i></div>
+                  <div><div class="font-bold">Bóng Đêm Cyber</div></div>
+                </div>
+                <i class="fa-solid fa-check text-xs text-brand-500 theme-check hidden"></i>
+              </button>
+              <button onclick="app.setTheme('aurora')" id="theme-opt-aurora" class="w-full flex items-center justify-between px-3 py-1.5 rounded-xl text-xs font-medium transition-all hover:bg-fuchsia-500/10 text-left my-0.5 group">
+                <div class="flex items-center gap-2">
+                  <div class="w-6 h-6 rounded-lg bg-purple-950 border border-fuchsia-500/40 flex items-center justify-center text-fuchsia-400 text-xs shadow-sm"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+                  <div><div class="font-bold">Cực Quang Aurora</div></div>
+                </div>
+                <i class="fa-solid fa-check text-xs text-fuchsia-500 theme-check hidden"></i>
+              </button>
+              <button onclick="app.setTheme('pearl')" id="theme-opt-pearl" class="w-full flex items-center justify-between px-3 py-1.5 rounded-xl text-xs font-medium transition-all hover:bg-amber-500/10 text-left my-0.5 group">
+                <div class="flex items-center gap-2">
+                  <div class="w-6 h-6 rounded-lg bg-slate-100 border border-amber-400/50 flex items-center justify-center text-amber-500 text-xs shadow-sm"><i class="fa-solid fa-sun"></i></div>
+                  <div><div class="font-bold text-slate-800">Ngọc Trai Sang Trọng</div></div>
+                </div>
+                <i class="fa-solid fa-check text-xs text-amber-500 theme-check"></i>
+              </button>
+            </div>
+          </div>
+
+          <button onclick="app.showScoreModal()" class="px-2.5 py-1 rounded-lg text-xs font-bold bg-amber-500/20 hover:bg-amber-500/30 text-amber-600 dark:text-amber-300 border border-amber-500/40 shadow active:scale-95 transition-all">
+            <i class="fa-solid fa-award text-amber-500 mr-1"></i> Điểm
+          </button>
+          <button id="btn-import" onclick="app.openImportModal()" class="teacher-only px-2.5 py-1 rounded-lg text-xs font-bold bg-gradient-to-r from-brand-600 to-fuchsia-600 text-white border border-brand-400/30 shadow active:scale-95 transition-all">
+            <i class="fa-solid fa-file-import mr-1"></i> Nạp Đề
+          </button>
+          <button id="btn-toggle-solution" onclick="app.handleToggleSolution()" class="px-2.5 py-1 rounded-lg text-xs font-medium glass-card text-amber-500 active:scale-95 transition-all hidden">
+            <i id="sol-icon" class="fa-solid fa-lock text-amber-500 mr-1"></i> <span id="sol-btn-text">Lời giải</span>
+          </button>
+          <button id="btn-export" onclick="app.openExportModal()" class="teacher-only px-2.5 py-1 rounded-lg text-xs font-semibold bg-emerald-900/40 text-emerald-600 dark:text-emerald-300 border border-emerald-500/50 shadow active:scale-95 transition-all">
+            <i class="fa-solid fa-download mr-1"></i> Xuất HTML
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- MAIN CANVAS -->
+    <main class="flex-1 w-full p-1.5 md:p-2.5 flex flex-col overflow-hidden">
+      <div id="presentation-frame" class="glass-card rounded-xl md:rounded-2xl p-2.5 md:p-4 relative transition-all duration-300 flex flex-col h-full overflow-hidden">
+        <div id="slide-viewport" class="slide-viewport slide-visible flex-1 flex flex-col h-full overflow-hidden">
+          
+          <!-- BAR ĐIỀU HƯỚNG BẢNG & DANH MỤC CÂU -->
+          <div class="flex items-center justify-between gap-2 pb-2 mb-2 border-b border-slate-500/20 shrink-0">
+            <div class="flex items-center gap-2 flex-wrap">
+              <span id="badge-question-num" class="px-3 py-0.5 rounded-md text-xs font-extrabold bg-gradient-to-r from-brand-600 to-fuchsia-600 text-white shadow-md">BÌA ĐỀ THI</span>
+              <span id="badge-type" class="px-2 py-0.5 rounded-md text-xs font-medium theme-box text-fuchsia-500 dark:text-fuchsia-400">Môi trường dethi ex_test</span>
+            </div>
+
+            <!-- NÚT CHUYỂN SLIDE NHANH -->
+            <div id="quick-nav-bar" class="flex items-center gap-1.5">
+              <button onclick="app.prevSlide()" class="px-2.5 py-1 rounded-lg text-xs font-bold theme-box hover:border-brand-500/50 shadow transition-all active:scale-95 flex items-center gap-1" title="Mũi Tên Trái (←)">
+                <i class="fa-solid fa-chevron-left text-[10px]"></i> Trước
+              </button>
+              <button onclick="app.nextSlide()" class="px-2.5 py-1 rounded-lg text-xs font-bold bg-brand-600 hover:bg-brand-500 text-white shadow transition-all active:scale-95 flex items-center gap-1" title="Mũi Tên Phải (→)">
+                Tiếp <i class="fa-solid fa-chevron-right text-[10px]"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- PHẦN CHÍNH CÂU HỎI & TƯƠNG TÁC -->
+          <div id="main-content-grid" class="grid grid-cols-1 lg:grid-cols-12 gap-3 flex-1 overflow-y-auto pr-1">
+            
+            <!-- CỘT ĐỀ BÀI -->
+            <div id="problem-column" class="lg:col-span-12 flex flex-col gap-3">
+              <h2 id="slide-title" class="text-base md:text-lg font-bold tracking-tight leading-snug"></h2>
+              <div id="slide-question-body" class="text-sm md:text-base leading-relaxed theme-box p-3.5 md:p-4 rounded-xl flex-1">
+            <div class="flex flex-col items-center justify-center space-y-4 py-2">
+              <div class="w-full max-w-4xl p-5 md:p-6 rounded-2xl theme-box border-2 border-brand-500/40 shadow-2xl space-y-4 relative overflow-hidden">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 pb-3 border-b border-slate-500/30 text-center">
+                  <div class="flex flex-col items-center justify-center space-y-1">
+                    <h4 class="text-xs md:text-sm font-extrabold uppercase tracking-wider text-brand-400">UBND phường Nghĩa Đô</h4>
+                    <h3 class="text-sm md:text-base font-black uppercase tracking-wide text-emerald-400">Trường THCS Nghĩa Tân</h3>
+                    <div class="w-20 h-0.5 bg-gradient-to-r from-transparent via-brand-500 to-transparent mt-1"></div>
+                  </div>
+                  <div class="flex flex-col items-center justify-center space-y-1">
+                    <h2 class="text-base md:text-xl font-black uppercase text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-fuchsia-400">ĐỀ MINH HỌA SỐ 04 GIỮA HỌC KỲ I</h2>
+                    <p class="text-xs font-bold text-cyan-400 uppercase tracking-widest">NĂM HỌC 2026 - 2027</p>
+                    <p class="text-xs font-semibold theme-text-muted">Toán 9</p>
+                  </div>
+                </div>
+
+                <div class="p-3.5 rounded-xl theme-box border-2 border-amber-500/50 shadow-lg space-y-1.5 text-left bg-amber-500/10">
+                  <label class="block text-xs font-extrabold text-amber-400 uppercase tracking-wider flex items-center gap-1.5">
+                    <i class="fa-solid fa-user-pen text-sm"></i> BẮT BUỘC: Nhập Họ và Tên học sinh
+                  </label>
+                  <input type="text" id="input-student-fullname" value="" oninput="app.studentName = this.value" placeholder="Ví dụ: Nguyễn Văn An - Lớp 8A1..." class="w-full theme-input rounded-xl p-2.5 text-sm font-bold focus:ring-2 focus:ring-amber-400 focus:outline-none border-amber-500/50">
+                </div>
+
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 text-center text-xs">
+                  <div class="p-2.5 rounded-xl bg-slate-900/60 border border-slate-700/50">
+                    <span class="block text-[9px] uppercase font-bold theme-text-muted">Thời gian</span>
+                    <span class="font-extrabold text-amber-400 text-sm">45 phút</span>
+                  </div>
+                  <div class="p-2.5 rounded-xl bg-slate-900/60 border border-slate-700/50">
+                    <span class="block text-[9px] uppercase font-bold theme-text-muted">Mã đề thi</span>
+                    <span class="font-extrabold text-fuchsia-400 text-sm">101</span>
+                  </div>
+                  <div class="p-2.5 rounded-xl bg-slate-900/60 border border-slate-700/50">
+                    <span class="block text-[9px] uppercase font-bold theme-text-muted">Tổng số câu</span>
+                    <span class="font-extrabold text-cyan-400 text-sm">4 Câu</span>
+                  </div>
+                  <div class="p-2.5 rounded-xl bg-slate-900/60 border border-slate-700/50">
+                    <span class="block text-[9px] uppercase font-bold theme-text-muted">Hình thức</span>
+                    <span class="font-extrabold text-emerald-400 text-sm">Trực tuyến</span>
+                  </div>
+                </div>
+
+                <div class="p-3 rounded-xl bg-gradient-to-r from-brand-500/10 via-purple-500/10 to-amber-500/10 border border-slate-500/20 text-xs leading-relaxed theme-text-muted space-y-1">
+                  <div class="font-bold text-amber-400 flex items-center gap-1.5"><i class="fa-solid fa-circle-info"></i> Hướng dẫn thí sinh làm bài:</div>
+                  <p>• Nhập đầy đủ <b>Họ và Tên</b> ở ô phía trên trước khi bắt đầu.</p>
+                  <p>• Sau khi hoàn thành, Bảng điểm sẽ tự động đồng bộ gửi về cho <b>Giáo viên &amp; Phụ huynh</b>.</p>
+                  <p>• Sử dụng các phím mũi tên <b>Trái (←) / Phải (→)</b> trên bàn phím để chuyển câu hỏi.</p>
+                </div>
+              </div>
+
+              <button onclick="app.startExamFromCover()" class="px-8 py-3 rounded-2xl bg-gradient-to-r from-brand-600 via-fuchsia-600 to-amber-500 text-white font-extrabold text-base shadow-2xl hover:scale-105 active:scale-95 transition-all flex items-center gap-2.5 cursor-pointer">
+                <span>BẮT ĐẦU LÀM BÀI THI</span>
+                <i class="fa-solid fa-arrow-right animate-pulse"></i>
+              </button>
+            </div>
+          </div>
+            </div>
+            
+            <!-- CỘT TƯƠNG TÁC -->
+            <div id="interactive-column" class="lg:col-span-5 flex flex-col gap-2 theme-box p-3 md:p-4 rounded-xl hidden">
+              <h3 class="text-xs font-bold uppercase tracking-wider opacity-75 flex items-center gap-1.5 pb-1.5 border-b border-slate-500/20 shrink-0">
+                <i class="fa-solid fa-circle-check text-brand-500"></i> Phần tương tác
+              </h3>
+              <div id="interactive-content" class="space-y-2.5 flex-1 flex flex-col justify-center"></div>
+            </div>
+
+            <!-- PHẦN LỜI GIẢI CHI TIẾT -->
+            <div id="solution-drawer" class="lg:col-span-12 hidden transition-all duration-300 mt-1 p-3.5 rounded-xl border-l-4 border-l-amber-500 shadow-xl" style="background-color: var(--solution-bg); border-color: var(--solution-border);">
+              <h3 class="text-xs font-bold text-amber-500 flex items-center gap-2 mb-2 pb-1 border-b border-amber-500/20"><i class="fa-solid fa-lightbulb"></i> Lời giải chi tiết</h3>
+              <div id="slide-solution-body" class="text-sm md:text-base leading-relaxed space-y-2"></div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </main>
+
+    <!-- FOOTER NAV TINH GỌN -->
+    <footer class="glass-nav py-1.5 px-3 md:px-5 shrink-0">
+      <div class="w-full flex items-center justify-between gap-2">
+        <div class="flex items-center gap-2">
+          <button onclick="app.prevSlide()" class="px-3 py-1 rounded-lg text-xs font-semibold theme-box shadow transition-all active:scale-95"><i class="fa-solid fa-arrow-left"></i> Trước</button>
+          <button onclick="app.nextSlide()" class="px-3 py-1 rounded-lg text-xs font-semibold bg-brand-600 text-white border border-brand-500 shadow transition-all active:scale-95">Tiếp theo <i class="fa-solid fa-arrow-right"></i></button>
+        </div>
+        <div class="w-1/3 sm:w-64 bg-slate-500/20 rounded-full h-2 overflow-hidden border border-slate-500/30">
+          <div id="presentation-progress" class="bg-gradient-to-r from-brand-500 via-fuchsia-500 to-cyan-400 h-full w-0 transition-all duration-300" style="width: 20%;"></div>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- MODAL: MỤC LỤC BÀI THI -->
+  <div id="modal-toc" class="fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-md hidden flex items-center justify-center p-3">
+    <div class="glass-card max-w-5xl w-full rounded-2xl p-5 flex flex-col max-h-[92vh] shadow-2xl">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-500/20">
+        <div class="flex items-center gap-3">
+          <div class="p-2 rounded-xl bg-cyan-500/20 text-cyan-400 border border-cyan-500/30">
+            <i class="fa-solid fa-list-check text-xl"></i>
+          </div>
+          <div>
+            <h3 class="font-extrabold text-base">Mục Lục Đề Thi &amp; Trạng Thái Làm Bài</h3>
+            <p class="text-[11px] theme-text-muted">Nhấn vào câu bất kỳ để chuyển đến câu hỏi tương ứng</p>
+          </div>
+        </div>
+        <button onclick="app.closeTocModal()" class="opacity-70 hover:opacity-100 p-1"><i class="fa-solid fa-xmark text-lg"></i></button>
+      </div>
+
+      <div class="my-3 overflow-y-auto pr-1 flex-1">
+        <div id="toc-grid-container" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2.5">
+          <!-- Dynamic TOC Items -->
+        </div>
+      </div>
+
+      <div class="pt-2 border-t border-slate-500/20 flex items-center justify-between flex-wrap gap-2 text-xs">
+        <div class="flex items-center gap-4 text-[11px] theme-text-muted">
+          <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span> Đã làm</span>
+          <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-slate-500"></span> Chưa làm</span>
+          <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-brand-500"></span> Đang xem</span>
+        </div>
+        <button onclick="app.closeTocModal()" class="px-4 py-1.5 font-bold bg-slate-700 hover:bg-slate-600 text-white rounded-xl">Đóng</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: KẾT QUẢ / BẢNG ĐIỂM -->
+  <div id="modal-score" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md hidden flex items-center justify-center p-3">
+    <div class="glass-card max-w-3xl w-full rounded-2xl p-5 flex flex-col max-h-[92vh] shadow-2xl">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-500/20">
+        <div class="flex items-center gap-3">
+          <div class="p-2 rounded-xl bg-amber-500/20 text-amber-500 border border-amber-500/30"><i class="fa-solid fa-trophy text-xl"></i></div>
+          <div>
+            <h3 class="font-extrabold text-base">Bảng Điểm &amp; Kết Quả Học Tập</h3>
+            <p class="text-[11px] theme-text-muted">Hệ thống tự động đồng bộ kết quả gửi về Giáo Viên / Phụ Huynh</p>
+          </div>
+        </div>
+        <button onclick="app.closeScoreModal()" class="opacity-70 hover:opacity-100 p-1"><i class="fa-solid fa-xmark text-lg"></i></button>
+      </div>
+      
+      <div class="my-3 space-y-3 overflow-y-auto flex-1 pr-1">
+        <div class="p-4 rounded-2xl bg-gradient-to-r from-brand-600/20 via-purple-600/20 to-amber-500/20 border border-amber-500/30">
+          <div class="flex flex-wrap items-center justify-between gap-2 mb-2 pb-2 border-b border-amber-500/20">
+            <div>
+              <span class="text-[10px] font-bold uppercase theme-text-muted block">Học Sinh Thực Hiện</span>
+              <h4 id="score-student-name" class="text-base font-black text-amber-400">---</h4>
+            </div>
+            <div class="text-right">
+              <span class="text-[10px] font-bold uppercase theme-text-muted block">Đề Thi</span>
+              <span id="score-exam-title" class="text-xs font-extrabold text-cyan-400">---</span>
+            </div>
+          </div>
+
+          <div class="text-center sm:text-left flex items-center justify-between flex-wrap gap-3">
+            <div>
+              <span class="text-xs font-bold uppercase text-amber-500 block mb-0.5">Điểm Số Đạt Được</span>
+              <div class="text-3xl sm:text-4xl font-black bg-clip-text text-transparent bg-gradient-to-r from-amber-400 to-fuchsia-500">
+                <span id="score-val">0.0</span> <span class="text-base font-bold theme-text-muted">/ 10.0</span>
+              </div>
+            </div>
+            <div id="sync-status-badge" class="px-3 py-1.5 rounded-xl bg-slate-800 border border-slate-700 text-xs font-semibold text-slate-400 flex items-center gap-2">
+              <i class="fa-solid fa-spinner animate-spin"></i> Đang chờ gửi kết quả...
+            </div>
+          </div>
+        </div>
+
+        <div class="font-bold text-xs theme-text-muted flex items-center justify-between">
+          <span>Chi Tiết Lời Giải &amp; Điểm Từng Câu:</span>
+        </div>
+        <div id="score-breakdown-list" class="space-y-1.5"></div>
+      </div>
+
+      <div class="pt-2 border-t border-slate-500/20 flex flex-wrap items-center justify-between gap-2">
+        <button id="btn-manual-send-gform" onclick="app.sendDataToGoogleForm()" class="px-4 py-1.5 text-xs font-bold bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl shadow transition-all flex items-center gap-2">
+          <i class="fa-solid fa-paper-plane"></i> Gửi Kết Quả Cho Phụ Huynh / Giáo Viên
+        </button>
+        <button onclick="app.closeScoreModal()" class="px-4 py-1.5 text-xs font-bold bg-brand-600 hover:bg-brand-500 text-white rounded-xl">Đóng</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="modal-import" class="teacher-only fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-3 hidden">
+    <div class="glass-card max-w-5xl w-full rounded-2xl p-5 flex flex-col max-h-[92vh] shadow-2xl">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-500/20">
+        <div class="flex items-center gap-3">
+          <div class="p-2 rounded-lg bg-brand-500/20 text-brand-500 border border-brand-500/30"><i class="fa-solid fa-file-code text-xl"></i></div>
+          <div><h3 class="font-bold text-base">Nạp Đề LaTeX (Chuẩn ex_test)</h3></div>
+        </div>
+        <button onclick="app.closeImportModal()" class="opacity-70 hover:opacity-100 p-1"><i class="fa-solid fa-xmark text-lg"></i></button>
+      </div>
+      <div class="my-3 flex-1">
+        <textarea id="import-tex-input" rows="16" class="w-full theme-input font-mono text-xs rounded-xl p-3 focus:border-brand-500 focus:outline-none" placeholder="Dán mã LaTeX có chứa \begin{dethi}...\end{dethi}"></textarea>
+      </div>
+      <div class="pt-2 border-t border-slate-500/20 flex justify-end gap-2">
+        <button onclick="app.processImportedTeX()" class="px-5 py-2 text-xs font-bold bg-brand-600 text-white rounded-xl">Phân Tích &amp; Nạp Slide</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="modal-export" class="teacher-only fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-3 hidden">
+    <div class="glass-card max-w-4xl w-full rounded-2xl p-5 flex flex-col max-h-[92vh] shadow-2xl overflow-y-auto">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-500/20">
+        <div class="flex items-center gap-3">
+          <div class="p-2 rounded-lg bg-emerald-500/20 text-emerald-500 border border-emerald-500/30"><i class="fa-solid fa-file-export text-xl"></i></div>
+          <div><h3 class="font-bold text-base">Xuất Bản File HTML &amp; Cấu Hình Google Form</h3></div>
+        </div>
+        <button onclick="app.closeExportModal()" class="opacity-70 hover:opacity-100 p-1"><i class="fa-solid fa-xmark text-lg"></i></button>
+      </div>
+
+      <div class="my-3 space-y-3 text-xs">
+        <div class="p-3 rounded-xl theme-box space-y-2">
+          <label class="block font-semibold opacity-90">Cấu hình thời gian thi (Phút):</label>
+          <input type="number" id="export-cfg-timer" value="45" class="w-full theme-input rounded-lg p-2 focus:border-brand-500">
+        </div>
+
+        <div class="p-3 rounded-xl theme-box space-y-2 border-l-4 border-l-amber-500">
+          <div class="font-bold text-amber-400 flex items-center gap-1.5"><i class="fa-brands fa-google-drive"></i> Cấu hình nhận bảng điểm về Google Form / Webhook:</div>
+          <input type="text" id="export-cfg-gform-url" placeholder="https://docs.google.com/forms/d/e/.../formResponse (Hoặc Apps Script WebApp URL)" class="w-full theme-input rounded-lg p-2 font-mono text-[11px] focus:border-brand-500">
+          
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-1">
+            <div>
+              <label class="block text-[10px] theme-text-muted mb-1">Entry ID Họ tên:</label>
+              <input type="text" id="export-cfg-entry-name" placeholder="entry.123456789" class="w-full theme-input rounded-lg p-1.5 font-mono text-[10px]">
+            </div>
+            <div>
+              <label class="block text-[10px] theme-text-muted mb-1">Entry ID Điểm số:</label>
+              <input type="text" id="export-cfg-entry-score" placeholder="entry.987654321" class="w-full theme-input rounded-lg p-1.5 font-mono text-[10px]">
+            </div>
+            <div>
+              <label class="block text-[10px] theme-text-muted mb-1">Entry ID Chi tiết:</label>
+              <input type="text" id="export-cfg-entry-detail" placeholder="entry.112233445" class="w-full theme-input rounded-lg p-1.5 font-mono text-[10px]">
+            </div>
+          </div>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-3 pt-1">
+          <div onclick="app.exportHTML('student-free')" class="p-3 rounded-xl border border-emerald-500/40 theme-box cursor-pointer flex flex-col group hover:border-emerald-500 transition-all shadow">
+            <div class="flex items-center gap-2 text-emerald-400 font-bold mb-1">
+              <i class="fa-solid fa-lock-open text-sm"></i>
+              <h4 class="text-xs">Học Sinh (Tự Do)</h4>
+            </div>
+            <p class="text-[10px] theme-text-muted mb-2 leading-relaxed">Xem lời giải trực tiếp mọi lúc không bị giới hạn điểm.</p>
+            <button class="mt-auto w-full py-1.5 rounded-lg text-xs font-bold bg-emerald-600 text-white shadow">Tải Bản Tự Do</button>
+          </div>
+
+          <div onclick="app.exportHTML('student-lock')" class="p-3 rounded-xl border border-cyan-500/40 theme-box cursor-pointer flex flex-col group hover:border-cyan-500 transition-all shadow">
+            <div class="flex items-center gap-2 text-cyan-400 font-bold mb-1">
+              <i class="fa-solid fa-lock text-sm"></i>
+              <h4 class="text-xs">Học Sinh (Khóa đ.số)</h4>
+            </div>
+            <p class="text-[10px] theme-text-muted mb-2 leading-relaxed">Khóa lời giải nếu điểm <strong>&lt; 3.0 điểm</strong> để tự suy nghĩ.</p>
+            <button class="mt-auto w-full py-1.5 rounded-lg text-xs font-bold bg-cyan-600 text-white shadow">Tải Bản Khóa Điểm</button>
+          </div>
+
+          <div onclick="app.exportHTML('teacher')" class="p-3 rounded-xl border border-amber-500/40 theme-box cursor-pointer flex flex-col group hover:border-amber-500 transition-all shadow">
+            <div class="flex items-center gap-2 text-amber-400 font-bold mb-1">
+              <i class="fa-solid fa-user-shield text-sm"></i>
+              <h4 class="text-xs">Bản Giáo Viên</h4>
+            </div>
+            <p class="text-[10px] theme-text-muted mb-2 leading-relaxed">Bản Quản trị đầy đủ công cụ Nạp/Xuất đề và Mở lời giải tự do.</p>
+            <button class="mt-auto w-full py-1.5 rounded-lg text-xs font-bold bg-amber-600 text-white shadow">Tải Bản Giáo Viên</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast-container" class="fixed bottom-12 right-4 z-50 flex flex-col gap-2 pointer-events-none"></div>
+  <script id="student-mode-flag">
+          window.IS_STUDENT_MODE = true;
+          window.ENABLE_SOLUTION_LOCK = false;
+          window.PRELOADED_EXAM_INFO = {"department":"UBND phường Nghĩa Đô","school":"Trường THCS Nghĩa Tân","examName":"ĐỀ MINH HỌA SỐ 04 GIỮA HỌC KỲ I","year":"2026 - 2027","subject":"Toán 9","duration":"45 phút","examCode":""}; 
+          window.PRELOADED_SLIDES = [{"id":0,"isCoverSlide":true,"title":"THÔNG TIN ĐỀ THI","type":"Môi trường dethi ex_test","question":"\n            \u003cdiv class=\"flex flex-col items-center justify-center space-y-4 py-2\">\n              \u003cdiv class=\"w-full max-w-4xl p-5 md:p-6 rounded-2xl theme-box border-2 border-brand-500/40 shadow-2xl space-y-4 relative overflow-hidden\">\n                \u003cdiv class=\"grid grid-cols-1 md:grid-cols-2 gap-3 pb-3 border-b border-slate-500/30 text-center\">\n                  \u003cdiv class=\"flex flex-col items-center justify-center space-y-1\">\n                    \u003ch4 class=\"text-xs md:text-sm font-extrabold uppercase tracking-wider text-brand-400\">UBND phường Nghĩa Đô\u003c/h4>\n                    \u003ch3 class=\"text-sm md:text-base font-black uppercase tracking-wide text-emerald-400\">Trường THCS Nghĩa Tân\u003c/h3>\n                    \u003cdiv class=\"w-20 h-0.5 bg-gradient-to-r from-transparent via-brand-500 to-transparent mt-1\">\u003c/div>\n                  \u003c/div>\n                  \u003cdiv class=\"flex flex-col items-center justify-center space-y-1\">\n                    \u003ch2 class=\"text-base md:text-xl font-black uppercase text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-fuchsia-400\">ĐỀ MINH HỌA SỐ 04 GIỮA HỌC KỲ I\u003c/h2>\n                    \u003cp class=\"text-xs font-bold text-cyan-400 uppercase tracking-widest\">NĂM HỌC 2026 - 2027\u003c/p>\n                    \u003cp class=\"text-xs font-semibold theme-text-muted\">Toán 9\u003c/p>\n                  \u003c/div>\n                \u003c/div>\n\n                \u003cdiv class=\"p-3.5 rounded-xl theme-box border-2 border-amber-500/50 shadow-lg space-y-1.5 text-left bg-amber-500/10\">\n                  \u003clabel class=\"block text-xs font-extrabold text-amber-400 uppercase tracking-wider flex items-center gap-1.5\">\n                    \u003ci class=\"fa-solid fa-user-pen text-sm\">\u003c/i> BẮT BUỘC: Nhập Họ và Tên học sinh\n                  \u003c/label>\n                  \u003cinput type=\"text\" id=\"input-student-fullname\" value=\"\" oninput=\"app.studentName = this.value\" placeholder=\"Ví dụ: Nguyễn Văn An - Lớp 8A1...\" class=\"w-full theme-input rounded-xl p-2.5 text-sm font-bold focus:ring-2 focus:ring-amber-400 focus:outline-none border-amber-500/50\" />\n                \u003c/div>\n\n                \u003cdiv class=\"grid grid-cols-2 sm:grid-cols-4 gap-2.5 text-center text-xs\">\n                  \u003cdiv class=\"p-2.5 rounded-xl bg-slate-900/60 border border-slate-700/50\">\n                    \u003cspan class=\"block text-[9px] uppercase font-bold theme-text-muted\">Thời gian\u003c/span>\n                    \u003cspan class=\"font-extrabold text-amber-400 text-sm\">45 phút\u003c/span>\n                  \u003c/div>\n                  \u003cdiv class=\"p-2.5 rounded-xl bg-slate-900/60 border border-slate-700/50\">\n                    \u003cspan class=\"block text-[9px] uppercase font-bold theme-text-muted\">Mã đề thi\u003c/span>\n                    \u003cspan class=\"font-extrabold text-fuchsia-400 text-sm\">101\u003c/span>\n                  \u003c/div>\n                  \u003cdiv class=\"p-2.5 rounded-xl bg-slate-900/60 border border-slate-700/50\">\n                    \u003cspan class=\"block text-[9px] uppercase font-bold theme-text-muted\">Tổng số câu\u003c/span>\n                    \u003cspan class=\"font-extrabold text-cyan-400 text-sm\">4 Câu\u003c/span>\n                  \u003c/div>\n                  \u003cdiv class=\"p-2.5 rounded-xl bg-slate-900/60 border border-slate-700/50\">\n                    \u003cspan class=\"block text-[9px] uppercase font-bold theme-text-muted\">Hình thức\u003c/span>\n                    \u003cspan class=\"font-extrabold text-emerald-400 text-sm\">Trực tuyến\u003c/span>\n                  \u003c/div>\n                \u003c/div>\n\n                \u003cdiv class=\"p-3 rounded-xl bg-gradient-to-r from-brand-500/10 via-purple-500/10 to-amber-500/10 border border-slate-500/20 text-xs leading-relaxed theme-text-muted space-y-1\">\n                  \u003cdiv class=\"font-bold text-amber-400 flex items-center gap-1.5\">\u003ci class=\"fa-solid fa-circle-info\">\u003c/i> Hướng dẫn thí sinh làm bài:\u003c/div>\n                  \u003cp>• Nhập đầy đủ \u003cb>Họ và Tên\u003c/b> ở ô phía trên trước khi bắt đầu.\u003c/p>\n                  \u003cp>• Sau khi hoàn thành, Bảng điểm sẽ tự động đồng bộ gửi về cho \u003cb>Giáo viên & Phụ huynh\u003c/b>.\u003c/p>\n                  \u003cp>• Sử dụng các phím mũi tên \u003cb>Trái (←) / Phải (→)\u003c/b> trên bàn phím để chuyển câu hỏi.\u003c/p>\n                \u003c/div>\n              \u003c/div>\n\n              \u003cbutton onclick=\"app.startExamFromCover()\" class=\"px-8 py-3 rounded-2xl bg-gradient-to-r from-brand-600 via-fuchsia-600 to-amber-500 text-white font-extrabold text-base shadow-2xl hover:scale-105 active:scale-95 transition-all flex items-center gap-2.5 cursor-pointer\">\n                \u003cspan>BẮT ĐẦU LÀM BÀI THI\u003c/span>\n                \u003ci class=\"fa-solid fa-arrow-right animate-pulse\">\u003c/i>\n              \u003c/button>\n            \u003c/div>\n          ","options":[],"solution":""},{"id":1,"title":"Câu 1","type":"Essay","question":"[M2][Giải phương trình và hệ phương trình bậc nhất]\n\t\\hfill\n\t\u003col class=\"tex-list-enum\">\u003cli>Giải các phương trình sau:\n\t\t\u003col class=\"tex-list-enum\">\u003cli>$x^2 - 1 = 5(x + 1)$;\u003c/li>\u003cli>$\\dfrac{3x - 6}{x^2 + 3x} + \\dfrac{2}{x} = \\dfrac{7 - x}{x + 3}$;\u003c/li>\u003cli>$4(x - 3)^2 = 9x^2$.\u003c/li>\u003c/ol>\u003c/li>\u003cli>Giải hệ phương trình sau: $\\begin{cases} 2(x + y) + 3(x - y) = 4 \\\\ (x + y) + 2(x - y) = 5. \\end{cases}$\u003c/li>\u003cli>Giải bất phương trình sau: $\\dfrac{1}{2} - \\dfrac{3(x + 2)}{4} \\le 3 - \\dfrac{x - 4}{6}$.\u003c/li>\u003c/ol>","options":[],"correctIndex":0,"tfItems":[],"correctAnswer":"","essayItems":[{"label":"Ý 1","text":"Giải các phương trình sau:\n\t\t\\begin{enumerate}"},{"label":"Ý 2","text":"$x^2 - 1 = 5(x + 1)$;"},{"label":"Ý 3","text":"$\\dfrac{3x - 6}{x^2 + 3x} + \\dfrac{2}{x} = \\dfrac{7 - x}{x + 3}$;"},{"label":"Ý 4","text":"$4(x - 3)^2 = 9x^2$."}],"solution":"\u003col class=\"tex-list-enum\">\u003cli>\u003col class=\"tex-list-enum\">\u003cli>Ta có:\n\t\t\t\t\\begin{align*}\n\t\t\t\t\tx^2 - 1 &= 5(x + 1)\\\\\n\t\t\t\t\t(x - 1)(x + 1) - 5(x + 1) &= 0\\\\\n\t\t\t\t\t(x + 1)(x - 1 - 5) &= 0\\\\\n\t\t\t\t\t(x + 1)(x - 6) &= 0.\n\t\t\t\t\\end{align*}\n\t\t\t\tSuy ra $x + 1 = 0$ hoặc $x - 6 = 0 \\iff x = -1$ hoặc $x = 6$.\u003cbr/>\n\t\t\t\tVậy tập nghiệm của phương trình là $S = \\{-1; 6\\}$.\u003c/li>\u003cli>Điều kiện xác định: $x \\ne 0$ và $x \\ne -3$.\u003cbr/>\n\t\t\t\tBiến đổi phương trình:\n\t\t\t\t\\begin{align*}\n\t\t\t\t\t\\dfrac{3x - 6}{x(x + 3)} + \\dfrac{2(x + 3)}{x(x + 3)} &= \\dfrac{x(7 - x)}{x(x + 3)}\\\\\n\t\t\t\t\t3x - 6 + 2x + 6 &= 7x - x^2\\\\\n\t\t\t\t\t5x &= 7x - x^2\\\\\n\t\t\t\t\tx^2 - 2x &= 0\\\\\n\t\t\t\t\tx(x - 2) &= 0.\n\t\t\t\t\\end{align*}\n\t\t\t\tSuy ra $x = 0$ (loại do vi phạm ĐKXĐ) hoặc $x = 2$ (thỏa mãn ĐKXĐ).\u003cbr/>\n\t\t\t\tVậy tập nghiệm của phương trình là $S = \\{2\\}$.\u003c/li>\u003cli>Biến đổi phương trình:\n\t\t\t\t\\begin{align*}\n\t\t\t\t\t[2(x - 3)]^2 - (3x)^2 &= 0\\\\\n\t\t\t\t\t[2(x - 3) - 3x][2(x - 3) + 3x] &= 0\\\\\n\t\t\t\t\t(-x - 6)(5x - 6) &= 0.\n\t\t\t\t\\end{align*}\n\t\t\t\tSuy ra $-x - 6 = 0$ hoặc $5x - 6 = 0 \\iff x = -6$ hoặc $x = \\dfrac{6}{5}$.\u003cbr/>\n\t\t\t\tVậy tập nghiệm của phương trình là $S = \\left\\{-6; \\dfrac{6}{5}\\right\\}$.\u003c/li>\u003c/ol>\u003c/li>\u003cli>Rút gọn các phương trình trong hệ:\n\t\t\t\\[\\begin{cases} 2x + 2y + 3x - 3y = 4 \\\\ x + y + 2x - 2y = 5 \\end{cases} \\iff \\begin{cases} 5x - y = 4 \\\\ 3x - y = 5 \\end{cases}\\]\n\t\t\tLấy phương trình thứ nhất trừ phương trình thứ hai, ta được:\n\t\t\t\\[2x = -1 \\iff x = -\\dfrac{1}{2}.\\]\n\t\t\tThay $x = -\\dfrac{1}{2}$ vào phương trình $3x - y = 5$, ta được:\n\t\t\t\\[3\\left(-\\dfrac{1}{2}\\right) - y = 5 \\iff -\\dfrac{3}{2} - y = 5 \\iff y = -\\dfrac{13}{2}.\\]\n\t\t\tVậy hệ phương trình có nghiệm duy nhất $(x; y) = \\left(-\\dfrac{1}{2}; -\\dfrac{13}{2}\\right)$.\u003c/li>\u003cli>Quy đồng mẫu thức hai vế với mẫu thức chung là $12$, ta được:\n\t\t\t\\begin{align*}\n\t\t\t\t\\dfrac{6 - 9(x + 2)}{12} &\\le \\dfrac{36 - 2(x - 4)}{12}\\\\\n\t\t\t\t6 - 9x - 18 &\\le 36 - 2x + 8\\\\\n\t\t\t\t-9x - 12 &\\le 44 - 2x\\\\\n\t\t\t\t-7x &\\le 56\\\\\n\t\t\t\tx &\\ge -8.\n\t\t\t\\end{align*}\n\t\t\tVậy nghiệm của bất phương trình là $x \\ge -8$.\u003c/li>\u003c/ol>"},{"id":2,"title":"Câu 2","type":"Essay","question":"\\hfill\n\t\u003col class=\"tex-list-enum\">\u003cli>Giải bài toán bằng cách lập phương trình:\u003cbr/>\n\t\tHai ô tô cùng khởi hành một lúc từ hai địa điểm A và B cách nhau $210\\text{ km}$, đi ngược chiều nhau và gặp nhau sau $2\\text{ giờ}$. Biết rằng quãng đường ô tô xuất phát từ A đi trong $1\\text{ giờ}$ bằng quãng đường ô tô xuất phát từ B đi trong $1\\text{ giờ } 20\\text{ phút}$. Tính vận tốc của mỗi ô tô, biết vận tốc của mỗi xe không đổi.\u003c/li>\u003cli>Giải bài toán bằng cách lập hệ phương trình:\u003cbr/>\n\t\tBác Hải dự định chia một khoản tiền thành hai phần để gửi vào hai ngân hàng A và B trong một năm. Với cùng cách chia tiền đó:\n\t\t\u003cul class=\"tex-list-item\">\u003cli>Trường hợp 1: Nếu lãi suất của ngân hàng A là $6\\%/\\text{năm}$, ngân hàng B là $8\\%/\\text{năm}$ thì tổng số tiền cả gốc lẫn lãi bác nhận được sau một năm là $640\\text{ triệu đồng}$.\u003c/li>\u003cli>Trường hợp 2: Nếu lãi suất của ngân hàng A là $7\\%/\\text{năm}$, ngân hàng B là $9\\%/\\text{năm}$ thì tổng tiền lãi bác nhận được sau một năm là $46\\text{ triệu đồng}$.\u003c/li>\u003c/ul>\n\t\tHỏi bác Hải dự định gửi vào mỗi ngân hàng bao nhiêu tiền?\u003c/li>\u003c/ol>","options":[],"correctIndex":0,"tfItems":[],"correctAnswer":"","essayItems":[{"label":"Ý 1","text":"Giải bài toán bằng cách lập phương trình:\u003cbr/>\n\t\tHai ô tô cùng khởi hành một lúc từ hai địa điểm A và B cách nhau $210\\text{ km}$, đi ngược chiều nhau và gặp nhau sau $2\\text{ giờ}$. Biết rằng quãng đường ô tô xuất phát từ A đi trong $1\\text{ giờ}$ bằng quãng đường ô tô xuất phát từ B đi trong $1\\text{ giờ } 20\\text{ phút}$. Tính vận tốc của mỗi ô tô, biết vận tốc của mỗi xe không đổi."},{"label":"Ý 2","text":"Giải bài toán bằng cách lập hệ phương trình:\u003cbr/>\n\t\tBác Hải dự định chia một khoản tiền thành hai phần để gửi vào hai ngân hàng A và B trong một năm. Với cùng cách chia tiền đó:\n\t\t\\begin{itemize}"},{"label":"Ý 3","text":"Trường hợp 1: Nếu lãi suất của ngân hàng A là $6\\%/\\text{năm}$, ngân hàng B là $8\\%/\\text{năm}$ thì tổng số tiền cả gốc lẫn lãi bác nhận được sau một năm là $640\\text{ triệu đồng}$."},{"label":"Ý 4","text":"Trường hợp 2: Nếu lãi suất của ngân hàng A là $7\\%/\\text{năm}$, ngân hàng B là $9\\%/\\text{năm}$ thì tổng tiền lãi bác nhận được sau một năm là $46\\text{ triệu đồng}$.\n\t\t\\end{itemize}\n\t\tHỏi bác Hải dự định gửi vào mỗi ngân hàng bao nhiêu tiền?"}],"solution":"\u003col class=\"tex-list-enum\">\u003cli>Đổi $1\\text{ giờ } 20\\text{ phút} = \\dfrac{4}{3}\\text{ giờ}$.\u003cbr/>\n\t\t\tGọi vận tốc của ô tô xuất phát từ A và ô tô xuất phát từ B lần lượt là $x$ và $y$ ($\\text{km/h}$, $x > 0, y > 0$).\u003cbr/>\n\t\t\tVì hai ô tô đi ngược chiều và gặp nhau sau $2\\text{ giờ}$ trên quãng đường $210\\text{ km}$ nên ta có:\n\t\t\t\\[2x + 2y = 210 \\iff x + y = 105 \\quad (1).\\]\n\t\t\tQuãng đường ô tô từ A đi trong $1\\text{ giờ}$ là $x\\text{ (km)}$.\u003cbr/>\n\t\t\tQuãng đường ô tô từ B đi trong $\\dfrac{4}{3}\\text{ giờ}$ là $\\dfrac{4}{3}y\\text{ (km)}$.\u003cbr/>\n\t\t\tTheo đề bài, quãng đường hai xe đi trong các khoảng thời gian trên bằng nhau nên:\n\t\t\t\\[x = \\dfrac{4}{3}y \\quad (2).\\]\n\t\t\tThay $(2)$ vào $(1)$, ta được:\n\t\t\t\\[\\dfrac{4}{3}y + y = 105 \\iff \\dfrac{7}{3}y = 105 \\iff y = 45\\text{ (thỏa mãn ĐKXĐ).}\\]\n\t\t\tSuy ra $x = \\dfrac{4}{3} \\cdot 45 = 60\\text{ (thỏa mãn ĐKXĐ).}$\u003cbr/>\n\t\t\tVậy vận tốc của ô tô xuất phát từ A là $60\\text{ km/h}$ và vận tốc của ô tô xuất phát từ B là $45\\text{ km/h}$.\u003c/li>\u003cli>Gọi số tiền bác Hải dự định gửi vào ngân hàng A và ngân hàng B lần lượt là $x$ và $y$ (triệu đồng, $x > 0, y > 0$).\u003cbr/>\n\t\t\tỞ trường hợp 1, tổng số tiền cả gốc lẫn lãi sau một năm là $640\\text{ triệu đồng}$ nên ta có phương trình:\n\t\t\t\\[x(1 + 6\\%) + y(1 + 8\\%) = 640 \\iff 1{,}06x + 1{,}08y = 640 \\quad (1).\\]\n\t\t\tỞ trường hợp 2, tổng tiền lãi nhận được sau một năm là $46\\text{ triệu đồng}$ nên ta có phương trình:\n\t\t\t\\[7\\%x + 9\\%y = 46 \\iff 0{,}07x + 0{,}09y = 46 \\quad (2).\\]\n\t\t\tTrừ vế với vế của phương trình $(1)$ cho phương trình $(2)$, ta được:\n\t\t\t\\begin{eqnarray*}\n\t\t\t\t(1{,}06 - 0{,}07)x + (1{,}08 - 0{,}09)y &=& 640 - 46\\\\\n\t\t\t\t0{,}99x + 0{,}99y &=& 594\\\\\n\t\t\t\tx + y &=& 600 \\implies x = 600 - y.\n\t\t\t\\end{eqnarray*}\n\t\t\tThay $x = 600 - y$ vào phương trình $(2)$, ta được:\n\t\t\t\\[0{,}07(600 - y) + 0{,}09y = 46 \\iff 42 + 0{,}02y = 46 \\iff 0{,}02y = 4 \\iff y = 200\\text{ (thỏa mãn)}.\\]\n\t\t\tSuy ra $x = 600 - 200 = 400\\text{ (thỏa mãn)}.$\u003cbr/>\n\t\t\tVậy bác Hải dự định gửi $400\\text{ triệu đồng}$ vào ngân hàng A và $200\\text{ triệu đồng}$ vào ngân hàng B.\u003c/li>\u003c/ol>"},{"id":3,"title":"Câu 3","type":"Essay","question":"\\hfill\n\t\u003col class=\"tex-list-enum\">\u003cli>Trong chuyến tham quan một khu du lịch, Trung và Khoa đến đài quan sát tại đỉnh đồi A. Hai con đường thẳng AC và AD nối đài quan sát với hai điểm C, D ở chân đồi. Gọi B là hình chiếu vuông góc của A trên mặt phẳng nằm ngang chứa C, D, biết C, B, D thẳng hàng và B nằm giữa C và D. Đài quan sát có độ cao $AB = 50\\text{ m}$. Mặt dốc AC hợp với phương thẳng đứng AB một góc $80^\\circ$.\n\t\t\u003cdiv class=\"w-full flex justify-center my-2 overflow-x-auto\">\n\t\t\t\u003cdiv class=\"tikz-container w-full flex justify-center my-2\">\u003cscript type=\"text/tikz\">\n\\begin{tikzpicture}[scale=0.85, font=\\footnotesize, line join=round, line cap=round]\n\t\t\t\t% ========================\n\t\t\t\t% 1. ĐỊNH NGHĨA CÁC ĐIỂM\n\t\t\t\t% ========================\n\t\t\t\t\\tkzDefPoints{0/0/B, 0/2.5/A, -4/0/C, 5/0/D}\n\t\t\t\t\\path (C) +(-0.5,0) coordinate (G_left);\n\t\t\t\t\\path (D) +(0.5,0) coordinate (G_right);\n\t\t\t\t\n\t\t\t\t% ========================\n\t\t\t\t% 2. VẼ HÌNH & TÔ MÀU\n\t\t\t\t% ========================\n\t\t\t\t\\tkzFillPolygon[color=blue!5](A,C,D)\n\t\t\t\t\\draw[thick, color=brown!80!black] (G_left) -- (G_right);\n\t\t\t\t\\draw[thick, color=red!80!black] (A) -- (C);\n\t\t\t\t\\draw[thick, color=blue!80!black] (A) -- (D);\n\t\t\t\t\\draw[dashed, thick, color=blue!80!black] (A) -- (B);\n\t\t\t\t\n\t\t\t\t% ========================\n\t\t\t\t% 3. TRANG TRÍ (ĐIỂM, KÝ HIỆU, NHÃN)\n\t\t\t\t% ========================\n\t\t\t\t\\tkzMarkRightAngle[size=0.25, fill=gray!20](A,B,C)\n\t\t\t\t\\tkzMarkAngle[size=0.6, mark=none](C,A,B)\n\t\t\t\t\\tkzLabelAngle[pos=0.9](C,A,B){$80^\\circ$}\n\t\t\t\t\n\t\t\t\t\\tkzLabelSegment[right, pos=0.5](A,B){$50\\text{ m}$}\n\t\t\t\t\n\t\t\t\t\\tkzDrawPoints[size=3, fill=black](A,B,C,D)\n\t\t\t\t\\tkzLabelPoint[above](A){$A$}\n\t\t\t\t\\tkzLabelPoint[below](B){$B$}\n\t\t\t\t\\tkzLabelPoint[below](C){$C$}\n\t\t\t\t\\tkzLabelPoint[below](D){$D$}\n\t\t\t\\end{tikzpicture}\n\u003c/script>\u003c/div>\n\t\t\u003c/div>\n\t\t\u003col class=\"tex-list-enum\">\u003cli>Tính độ dài mặt dốc AC theo đơn vị mét. (Làm tròn kết quả đến hàng phần trăm)\u003c/li>\u003cli>Trung và Khoa lên xe điện đi từ đài quan sát A theo đường AD xuống khu vườn sinh thái tại D. Xe chuyển động đều với vận tốc $18\\text{ km/h}$ và đến D sau $1\\text{ phút}$. Tính góc tạo bởi mặt dốc AD với phương nằm ngang. (kết quả làm tròn đến hàng đơn vị của độ)\u003c/li>\u003c/ol>\u003c/li>\u003cli>Cho tam giác ABC vuông tại A ($AB \u003c AC$), đường cao AH. Gọi M là trung điểm AC, gọi K là hình chiếu của A lên đoạn BM. Kẻ $MG \\perp BC$ tại G. Tia AK và tia MG cắt nhau tại D. Biết AD cắt BC tại I.\n\t\t\u003col class=\"tex-list-enum\">\u003cli>Chứng minh $BK \\cdot BM = BH \\cdot BC$.\u003c/li>\u003cli>Chứng minh $\\triangle MKD \\sim \\triangle MGB$, suy ra $\\widehat{ACD} = 90^\\circ$.\u003c/li>\u003cli>Lấy điểm E sao cho A là trung điểm EH. Chứng minh CA là phân giác $\\widehat{KCE}$.\u003c/li>\u003c/ol>\u003c/li>\u003c/ol>","options":[],"correctIndex":0,"tfItems":[],"correctAnswer":"","essayItems":[{"label":"Ý 1","text":"Trong chuyến tham quan một khu du lịch, Trung và Khoa đến đài quan sát tại đỉnh đồi A. Hai con đường thẳng AC và AD nối đài quan sát với hai điểm C, D ở chân đồi. Gọi B là hình chiếu vuông góc của A trên mặt phẳng nằm ngang chứa C, D, biết C, B, D thẳng hàng và B nằm giữa C và D. Đài quan sát có độ cao $AB = 50\\text{ m}$. Mặt dốc AC hợp với phương thẳng đứng AB một góc $80^\\circ$.\n\t\t\u003cdiv class=\"w-full flex justify-center my-2 overflow-x-auto\">\n\t\t\t\u003cdiv class=\"tikz-container w-full flex justify-center my-2\">\u003cscript type=\"text/tikz\">\n\\begin{tikzpicture}[scale=0.85, font=\\footnotesize, line join=round, line cap=round]\n\t\t\t\t% ========================\n\t\t\t\t% 1. ĐỊNH NGHĨA CÁC ĐIỂM\n\t\t\t\t% ========================\n\t\t\t\t\\tkzDefPoints{0/0/B, 0/2.5/A, -4/0/C, 5/0/D}\n\t\t\t\t\\path (C) +(-0.5,0) coordinate (G_left);\n\t\t\t\t\\path (D) +(0.5,0) coordinate (G_right);\n\t\t\t\t\n\t\t\t\t% ========================\n\t\t\t\t% 2. VẼ HÌNH & TÔ MÀU\n\t\t\t\t% ========================\n\t\t\t\t\\tkzFillPolygon[color=blue!5](A,C,D)\n\t\t\t\t\\draw[thick, color=brown!80!black] (G_left) -- (G_right);\n\t\t\t\t\\draw[thick, color=red!80!black] (A) -- (C);\n\t\t\t\t\\draw[thick, color=blue!80!black] (A) -- (D);\n\t\t\t\t\\draw[dashed, thick, color=blue!80!black] (A) -- (B);\n\t\t\t\t\n\t\t\t\t% ========================\n\t\t\t\t% 3. TRANG TRÍ (ĐIỂM, KÝ HIỆU, NHÃN)\n\t\t\t\t% ========================\n\t\t\t\t\\tkzMarkRightAngle[size=0.25, fill=gray!20](A,B,C)\n\t\t\t\t\\tkzMarkAngle[size=0.6, mark=none](C,A,B)\n\t\t\t\t\\tkzLabelAngle[pos=0.9](C,A,B){$80^\\circ$}\n\t\t\t\t\n\t\t\t\t\\tkzLabelSegment[right, pos=0.5](A,B){$50\\text{ m}$}\n\t\t\t\t\n\t\t\t\t\\tkzDrawPoints[size=3, fill=black](A,B,C,D)\n\t\t\t\t\\tkzLabelPoint[above](A){$A$}\n\t\t\t\t\\tkzLabelPoint[below](B){$B$}\n\t\t\t\t\\tkzLabelPoint[below](C){$C$}\n\t\t\t\t\\tkzLabelPoint[below](D){$D$}\n\t\t\t\\end{tikzpicture}\n\u003c/script>\u003c/div>\n\t\t\u003c/div>\n\t\t\\begin{enumerate}"},{"label":"Ý 2","text":"Tính độ dài mặt dốc AC theo đơn vị mét. (Làm tròn kết quả đến hàng phần trăm)"},{"label":"Ý 3","text":"Trung và Khoa lên xe điện đi từ đài quan sát A theo đường AD xuống khu vườn sinh thái tại D. Xe chuyển động đều với vận tốc $18\\text{ km/h}$ và đến D sau $1\\text{ phút}$. Tính góc tạo bởi mặt dốc AD với phương nằm ngang. (kết quả làm tròn đến hàng đơn vị của độ)"}],"solution":"\u003col class=\"tex-list-enum\">\u003cli>\u003col class=\"tex-list-enum\">\u003cli>Xét tam giác ABC vuông tại B có $\\widehat{CAB} = 80^\\circ$ và $AB = 50\\text{ m}$.\u003cbr/>\n\t\t\t\tTrong tam giác vuông ABC, ta có:\n\t\t\t\t\\[\\cos \\widehat{CAB} = \\dfrac{AB}{AC} \\implies AC = \\dfrac{AB}{\\cos 80^\\circ} = \\dfrac{50}{\\cos 80^\\circ} \\approx 287{,}94\\text{ (m).}\\]\n\t\t\t\tVậy độ dài mặt dốc AC khoảng $287{,}94\\text{ m}$.\u003c/li>\u003cli>Đổi $1\\text{ phút} = \\dfrac{1}{60}\\text{ giờ}$.\u003cbr/>\n\t\t\t\tĐộ dài quãng đường AD là:\n\t\t\t\t\\[AD = v \\cdot t = 18 \\cdot \\dfrac{1}{60} = 0{,}3\\text{ (km)} = 300\\text{ (m).}\\]\n\t\t\t\tGóc tạo bởi mặt dốc AD với phương nằm ngang là góc $\\widehat{ADB}$.\u003cbr/>\n\t\t\t\tXét tam giác ABD vuông tại B, ta có:\n\t\t\t\t\\[\\sin \\widehat{ADB} = \\dfrac{AB}{AD} = \\dfrac{50}{300} = \\dfrac{1}{6} \\implies \\widehat{ADB} \\approx 10^\\circ.\\]\n\t\t\t\tVậy góc tạo bởi mặt dốc AD với phương nằm ngang xấp xỉ $10^\\circ$.\u003c/li>\u003c/ol>\u003c/li>\u003cli>\u003cdiv class=\"w-full flex justify-center my-2 overflow-x-auto\">\n\t\t\t\t\u003cdiv class=\"tikz-container w-full flex justify-center my-2\">\u003cscript type=\"text/tikz\">\n\\begin{tikzpicture}[scale=0.9, font=\\footnotesize, line join=round, line cap=round]\n\t\t\t\t\t% ========================\n\t\t\t\t\t% 1. ĐỊNH NGHĨA CÁC ĐIỂM\n\t\t\t\t\t% ========================\n\t\t\t\t\t% Chân đường cao H và các đỉnh B, C\n\t\t\t\t\t\\tkzDefPoints{0/0/H, -2/0/B, 5/0/C}\n\t\t\t\t\t\n\t\t\t\t\t% Trung điểm O của BC làm tâm đường tròn đường kính BC\n\t\t\t\t\t\\tkzDefMidPoint(B,C)\\tkzGetPoint{O}\n\t\t\t\t\t\n\t\t\t\t\t% Dựng A là giao điểm của đường vuông góc tại H với đường tròn đường kính BC\n\t\t\t\t\t\\tkzDefPointBy[rotation=center H angle 90](C)\\tkzGetPoint{h_perp}\n\t\t\t\t\t\\tkzInterLC(H,h_perp)(O,B)\\tkzGetPoints{A}{A_sub}\n\t\t\t\t\t\n\t\t\t\t\t% M là trung điểm AC\n\t\t\t\t\t\\tkzDefMidPoint(A,C)\\tkzGetPoint{M}\n\t\t\t\t\t\n\t\t\t\t\t% K là hình chiếu vuông góc của A lên BM\n\t\t\t\t\t\\tkzDefPointBy[projection=onto B--M](A)\\tkzGetPoint{K}\n\t\t\t\t\t\n\t\t\t\t\t% G là hình chiếu vuông góc của M lên BC\n\t\t\t\t\t\\tkzDefPointBy[projection=onto B--C](M)\\tkzGetPoint{G}\n\t\t\t\t\t\n\t\t\t\t\t% D là giao điểm của tia AK và tia MG\n\t\t\t\t\t\\tkzInterLL(A,K)(M,G)\\tkzGetPoint{D}\n\t\t\t\t\t\n\t\t\t\t\t% I là giao điểm của AD và BC\n\t\t\t\t\t\\tkzInterLL(A,D)(B,C)\\tkzGetPoint{I}\n\t\t\t\t\t\n\t\t\t\t\t% E sao cho A là trung điểm EH (E đối xứng H qua A)\n\t\t\t\t\t\\tkzDefPointBy[symmetry=center A](H)\\tkzGetPoint{E}\n\t\t\t\t\t\n\t\t\t\t\t% ========================\n\t\t\t\t\t% 2. VẼ HÌNH & TÔ MÀU\n\t\t\t\t\t% ========================\n\t\t\t\t\t% Tô nền nhạt tam giác ABC\n\t\t\t\t\t\\tkzFillPolygon[color=blue!5](A,B,C)\n\t\t\t\t\t\n\t\t\t\t\t% Các đoạn thẳng chính\n\t\t\t\t\t\\draw[thick] (E) -- (B) -- (C) -- cycle;\n\t\t\t\t\t\\draw[thick] (B)--(A) -- (C);\n\t\t\t\t\t\\draw[thick, color=blue!80!black] (E)--(A) -- (H);\n\t\t\t\t\t\\draw[thick, color=blue!80!black] (B) -- (M);\n\t\t\t\t\t\\draw[thick] (A) -- (D);\n\t\t\t\t\t\\draw[thick] (M) -- (D);\n\t\t\t\t\t\\draw[thick] (C) -- (D);\n\t\t\t\t\t\\draw[thick, color=blue!80!black] (C) -- (E);\n\t\t\t\t\t\\draw[thick, color=blue!80!black] (C) -- (K);\n\t\t\t\t\t\n\t\t\t\t\t% ========================\n\t\t\t\t\t% 3. TRANG TRÍ (ĐIỂM, KÝ HIỆU, NHÃN)\n\t\t\t\t\t% ========================\n\t\t\t\t\t\\tkzMarkRightAngle[size=0.25, fill=gray!20](B,A,C)\n\t\t\t\t\t\\tkzMarkRightAngle[size=0.25, fill=gray!20](A,H,C)\n\t\t\t\t\t\\tkzMarkRightAngle[size=0.25, fill=gray!20](A,K,B)\n\t\t\t\t\t\\tkzMarkRightAngle[size=0.25, fill=gray!20](M,G,C)\n\t\t\t\t\t\n\t\t\t\t\t\\tkzDrawPoints[size=3, fill=black](A,B,C,H,M,K,G,D,I,E)\n\t\t\t\t\t\n\t\t\t\t\t\\tkzLabelPoint[above left](A){$A$}\n\t\t\t\t\t\\tkzLabelPoint[below left](B){$B$}\n\t\t\t\t\t\\tkzLabelPoint[below right](C){$C$}\n\t\t\t\t\t\\tkzLabelPoint[below](H){$H$}\n\t\t\t\t\t\\tkzLabelPoint[above right](M){$M$}\n\t\t\t\t\t\\tkzLabelPoint[above left](K){$K$}\n\t\t\t\t\t\\tkzLabelPoint[below](G){$G$}\n\t\t\t\t\t\\tkzLabelPoint[above](D){$D$}\n\t\t\t\t\t\\tkzLabelPoint[below](I){$I$}\n\t\t\t\t\t\\tkzLabelPoint[above](E){$E$}\n\t\t\t\t\\end{tikzpicture}\n\u003c/script>\u003c/div>\n\t\t\t\u003c/div>\n\t\t\t\u003col class=\"tex-list-enum\">\u003cli>Trong $\\triangle ABM$ vuông tại A có đường cao AK:\n\t\t\t\t\\[BA^2 = BK \\cdot BM.\\]\n\t\t\t\tTrong $\\triangle ABC$ vuông tại A có đường cao AH:\n\t\t\t\t\\[BA^2 = BH \\cdot BC.\\]\n\t\t\t\tSuy ra $BK \\cdot BM = BH \\cdot BC$.\u003c/li>\u003cli>\u003cul class=\"tex-list-item\">\u003cli>Xét $\\triangle MKD$ và $\\triangle MGB$ có $\\widehat{MKD} = \\widehat{MGB} = 90^\\circ$ và $\\widehat{KMD}$ chung.\u003cbr/>\n\t\t\t\t\tSuy ra $\\triangle MKD \\sim \\triangle MGB$ (g.g).\u003c/li>\u003cli>Từ $\\triangle MKD \\sim \\triangle MGB \\implies \\dfrac{MK}{MG} = \\dfrac{MD}{MB} \\implies MK \\cdot MB = MG \\cdot MD$.\u003cbr/>\n\t\t\t\t\tTrong $\\triangle ABM$ vuông tại A có đường cao AK $\\implies MK \\cdot MB = MA^2$.\u003cbr/>\n\t\t\t\t\tVì M là trung điểm của AC nên $MA = MC \\implies MC^2 = MG \\cdot MD \\implies \\dfrac{MC}{MD} = \\dfrac{MG}{MC}$.\u003cbr/>\n\t\t\t\t\tXét $\\triangle MCG$ và $\\triangle MDC$ có $\\dfrac{MC}{MD} = \\dfrac{MG}{MC}$ và $\\widehat{CMD}$ chung.\u003cbr/>\n\t\t\t\t\tSuy ra $\\triangle MCG \\sim \\triangle MDC$ (c.g.c) $\\implies \\widehat{MCD} = \\widehat{MGC} = 90^\\circ \\implies \\widehat{ACD} = 90^\\circ$.\u003c/li>\u003c/ul>\u003c/li>\u003cli>\u003cul class=\"tex-list-item\">\u003cli>Từ $MC^2 = MK \\cdot MB \\implies \\dfrac{MC}{MB} = \\dfrac{MK}{MC}$.\u003cbr/>\n\t\t\t\t\tXét $\\triangle MCK$ và $\\triangle MBC$ có $\\dfrac{MC}{MB} = \\dfrac{MK}{MC}$ và $\\widehat{KMC}$ chung.\u003cbr/>\n\t\t\t\t\tSuy ra $\\triangle MCK \\sim \\triangle MBC$ (c.g.c) $\\implies \\widehat{MCK} = \\widehat{MBC} \\quad (1)$.\u003c/li>\u003cli>Vì A là trung điểm EH nên $EH = 2AH$.\u003cbr/>\n\t\t\t\t\tTa có $\\triangle AHC \\sim \\triangle ABC \\implies \\dfrac{AH}{HC} = \\dfrac{AB}{AC} \\implies \\dfrac{EH}{HC} = \\dfrac{2AH}{HC} = \\dfrac{2AB}{AC} = \\dfrac{AB}{\\dfrac{AC}{2}} = \\dfrac{AB}{AM}$.\u003cbr/>\n\t\t\t\t\tXét $\\triangle EHC$ và $\\triangle ABM$ có $\\dfrac{EH}{AB} = \\dfrac{HC}{AM}$ và $\\widehat{EHC} = \\widehat{BAM} = 90^\\circ$.\u003cbr/>\n\t\t\t\t\tSuy ra $\\triangle EHC \\sim \\triangle ABM$ (c.g.c) $\\implies \\widehat{HCE} = \\widehat{AMB}$.\u003cbr/>\n\t\t\t\t\tDo $\\widehat{AMB}$ là góc ngoài tại đỉnh M của $\\triangle MBC$ nên $\\widehat{AMB} = \\widehat{ACB} + \\widehat{MBC}$.\u003cbr/>\n\t\t\t\t\tMà $\\widehat{ACE} = \\widehat{HCE} - \\widehat{ACB} = \\widehat{AMB} - \\widehat{ACB} = \\widehat{MBC} \\quad (2)$.\u003c/li>\u003cli>Từ $(1)$ và $(2)$ suy ra $\\widehat{ACK} = \\widehat{ACE}$, do đó CA là tia phân giác của $\\widehat{KCE}$.\u003c/li>\u003c/ul>\u003c/li>\u003c/ol>\u003c/li>\u003c/ol>"},{"id":4,"title":"Câu 4","type":"Essay","question":"Một gia đình dự định dựng một nhà kính trồng rau có dạng hình lăng trụ đứng tam giác, chiều dài $6\\text{ m}$. Hai mặt đầu của nhà kính là hai tam giác cân bằng nhau, mỗi tam giác có hai cạnh bên dài $4\\text{ m}$. Người thợ có thể thay đổi độ rộng của đáy nhưng vẫn giữ nguyên độ dài hai cạnh bên. Chi phí vật liệu và thi công che phủ hai mái và hai mặt đầu, kể cả phần cửa, là $150\\,000\\text{ đồng/m}^2$. Tính tổng chi phí che phủ nhà kính khi nhà kính có thể tích lớn nhất.\n\t\u003cdiv class=\"w-full flex justify-center my-2 overflow-x-auto\">\n\t\t\u003cdiv class=\"tikz-container w-full flex justify-center my-2\">\u003cscript type=\"text/tikz\">\n\\begin{tikzpicture}[scale=0.8, font=\\footnotesize, line join=round, line cap=round]\n\t\t\t\\coordinate (O) at (0,0);\n\t\t\t\\coordinate (A) at (0,2.5);\n\t\t\t\\coordinate (B) at (-2,0);\n\t\t\t\\coordinate (C) at (2,0);\n\t\t\t\n\t\t\t\\coordinate (A1) at (3.5,1.5);\n\t\t\t\n\t\t\t\\draw[thick] (B) -- (A) -- (C) -- cycle;\n\t\t\t\\draw[thick] (A) -- ($(A)+(A1)$) -- ($(C)+(A1)$) -- (C);\n\t\t\t\\draw[dashed, thick] (B) -- ($(B)+(A1)$) -- ($(C)+(A1)$);\n\t\t\t\\draw[dashed, thick] ($(B)+(A1)$) -- ($(A)+(A1)$);\n\t\t\t\\node[left] at ($(A)!0.5!(B)$) {$4\\text{ m}$};\n\t\t\t\\node[right] at ($(A)!0.5!(C)$) {$4\\text{ m}$};\n\t\t\t\\node[above] at ($(A)!0.5!($(A)+(A1)$)$) {$6\\text{ m}$};\n\t\t\\end{tikzpicture}\n\u003c/script>\u003c/div>\n\t\u003c/div>","options":[],"correctIndex":0,"tfItems":[],"correctAnswer":"","essayItems":[{"label":"Đáp số / Kết quả","text":""}],"solution":"Gọi nửa độ rộng đáy và chiều cao của một mặt đầu tam giác cân lần lượt là $x, h\\text{ (m)}$ với $0 \u003c x \u003c 4, h > 0$.\u003cbr/>\n\t\tTheo định lý Pythagore, ta có:\n\t\t\\[x^2 + h^2 = 4^2 = 16.\\]\n\t\tDiện tích của một mặt đầu nhà kính là:\n\t\t\\[S_{\\text{đáy}} = \\dfrac{1}{2} \\cdot 2x \\cdot h = xh\\text{ (m}^2\\text{).}\\]\n\t\tThể tích của nhà kính là:\n\t\t\\[V = S_{\\text{đáy}} \\cdot 6 = 6xh\\text{ (m}^3\\text{).}\\]\n\t\tÁp dụng bất đẳng thức AM-GM (hoặc $(x - h)^2 \\ge 0$), ta có:\n\t\t\\[2xh \\le x^2 + h^2 = 16 \\implies xh \\le 8.\\]\n\t\tDo đó $V = 6xh \\le 6 \\cdot 8 = 48\\text{ (m}^3\\text{)}$.\u003cbr/>\n\t\tDấu “ =”\\ xảy ra khi $x = h = 2\\sqrt{2}\\text{ m}$.\u003cbr/>\n\t\tKhi đó $V_{\\max} = 48\\text{ m}^3$ và diện tích một mặt đầu là $S_{\\text{đáy}} = 8\\text{ m}^2$.\u003cbr/>\n\t\tHai mái của nhà kính là hai hình chữ nhật có kích thước $4\\text{ m} \\times 6\\text{ m}$.\u003cbr/>\n\t\tTổng diện tích che phủ hai mái và hai mặt đầu là:\n\t\t\\[S_{\\text{tp}} = 2 \\cdot (4 \\cdot 6) + 2 \\cdot 8 = 48 + 16 = 64\\text{ (m}^2\\text{).}\\]\n\t\tTổng chi phí che phủ nhà kính khi đó là:\n\t\t\\[T = 64 \\cdot 150\\,000 = 9\\,600\\,000\\text{ (đồng).}\\]\n\t\tVậy tổng chi phí che phủ nhà kính khi thể tích lớn nhất là $9\\,600\\,000\\text{ đồng}$."}];
+          window.PRELOADED_EXAM_CFG = { 
+            timerMinutes: 90,
+            googleFormUrl: "",
+            entryNameId: "",
+            entryScoreId: "",
+            entryDetailId: ""
+          };
+        </script>
+
+  <!-- APP ENGINE -->
+  <script>
+    class LaTeXPresenterApp {
+      constructor() {
+        this.slides = [];
+        this.currentIndex = 0;
+        this.showSolution = false;
+        this.userAnswers = {};
+        this.studentName = '';
+        this.isStudentMode = false;
+        this.enableSolutionLock = true;
+        this.examInfo = null;
+        this.currentTheme = 'cyber';
+
+        this.googleFormUrl = '';
+        this.entryNameId = '';
+        this.entryScoreId = '';
+        this.entryDetailId = '';
+        this.isSubmittedToGForm = false;
+
+        this.timerMinutes = 45;
+        this.timerSecondsLeft = 45 * 60;
+        this.timerInterval = null;
+        this.isTimerRunning = false;
+        this.isExamLocked = false;
+
+        this.rawSampleTeX = `\\begin{dethi}[thoigian=90 phút, made=101]
+	{Sở GD\\&ĐT thành phố Huế}%
+	{Lớp toán 27 NGUYỄN ĐỨC CẢNH}%
+	{ĐỀ ÔN THI HỌC SINH GIỎI}%
+	{2026 - 2027}%
+	{Môn: Toán 9 chuyên}%
+\\end{dethi}
+
+\\setcounter{subsection}{0}
+\\setcounter{ex}{0}
+
+\\begin{ex}%[M1]%[Giải được hệ hai phương trình bậc nhất hai ẩn.]
+	Cho tập hợp $A = \\{x \\in \\mathbb{R} \\mid x^2 - 4 = 0\\}$. Phát biểu nào sau đây \\lq\\lq đúng\\rq\\rq{} về nghiệm của hệ phương trình $\\begin{cases} 2x - y = 7 \\\\ x + 3y = 0 \\end{cases}$?
+	\\choice
+	{ Nghiệm là $(-1; 3)$ }
+	{ Nghiệm là $(3; 1)$ }
+	{\\True Nghiệm là $(3; -1)$ }
+	{ Nghiệm là $(7; 0)$ }
+	\\loigiai{
+		Từ phương trình thứ hai suy ra $x = -3y$. Thay vào phương trình thứ nhất:
+		\\begin{eqnarray*}
+			2(-3y) - y &=& 7\\\\
+			-7y &=& 7\\\\
+			y &=& -1 \\implies x = 3.
+		\\end{eqnarray*}
+		Vậy nghiệm của hệ phương trình là $(3; -1)$.
+	}
+\\end{ex}
+
+\\begin{bt}%[M2]%[Giải được hệ hai phương trình bậc nhất hai ẩn.]%[Giải được phương trình chứa ẩn ở mẫu quy về phương trình bậc nhất.]
+	\\begin{enumerate}
+		\\item Giải hệ phương trình $\\begin{cases} 3x + 2y = 7 \\\\ x - 2y = 5. \\end{cases}$
+		\\item Tìm điều kiện \\lq\\lq xác định\\rq\\rq{} và giải phương trình $\\dfrac{x+2}{x-2} - \\dfrac{2}{x} = \\dfrac{x+6}{x(x-2)}$.
+	\\end{enumerate}
+	\\loigiai{
+		\\begin{enumerate}
+			\\item Cộng từng vế hai phương trình của hệ, ta được:
+			\\begin{eqnarray*}
+				4x &=& 12\\\\
+				x &=& 3.
+			\\end{eqnarray*}
+			Thay $x = 3$ vào phương trình thứ hai $x - 2y = 5$, ta được:
+			\\begin{eqnarray*}
+				3 - 2y &=& 5\\\\
+				2y &=& -2\\\\
+				y &=& -1.
+			\\end{eqnarray*}
+			Vậy hệ phương trình có nghiệm duy nhất $(x; y) = (3; -1)$.
+			
+			\\item Điều kiện xác định: $x \\ne 0$ và $x \\ne 2$.\\\\
+			Quy đồng mẫu thức hai vế của phương trình:
+			\\begin{eqnarray*}
+				\\dfrac{x(x + 2)}{x(x - 2)} - \\dfrac{2(x - 2)}{x(x - 2)} &=& \\dfrac{x + 6}{x(x - 2)}\\\\
+				x(x + 2) - 2(x - 2) &=& x + 6\\\\
+				x^2 + 2x - 2x + 4 &=& x + 6\\\\
+				x^2 - x - 2 &=& 0\\\\
+				(x - 2)(x + 1) &=& 0.
+			\\end{eqnarray*}
+			Suy ra $x = 2$ (không thỏa mãn ĐKXĐ) hoặc $x = -1$ (thỏa mãn ĐKXĐ).\\\\
+			Vậy phương trình có nghiệm $x = -1$.
+		\\end{enumerate}
+	}
+\\end{bt}`;
+      }
+
+      init() {
+        this.initTheme();
+        this.checkAppPermissions();
+        
+        if (window.PRELOADED_EXAM_CFG) {
+          this.timerMinutes = window.PRELOADED_EXAM_CFG.timerMinutes || 45;
+          this.googleFormUrl = window.PRELOADED_EXAM_CFG.googleFormUrl || '';
+          this.entryNameId = window.PRELOADED_EXAM_CFG.entryNameId || '';
+          this.entryScoreId = window.PRELOADED_EXAM_CFG.entryScoreId || '';
+          this.entryDetailId = window.PRELOADED_EXAM_CFG.entryDetailId || '';
+        }
+        
+        this.timerSecondsLeft = this.timerMinutes * 60;
+        this.updateTimerDisplay();
+
+        if (window.PRELOADED_SLIDES && window.PRELOADED_SLIDES.length > 0) {
+          this.slides = window.PRELOADED_SLIDES;
+          if (window.PRELOADED_EXAM_INFO) {
+            this.examInfo = window.PRELOADED_EXAM_INFO;
+            this.updateHeaderInfo();
+          }
+          this.renderCurrentSlide();
+        } else {
+          this.loadSampleExTestPrompt();
+        }
+
+        document.addEventListener('click', (e) => {
+          const wrapper = document.getElementById('theme-dropdown-wrapper');
+          if (wrapper && !wrapper.contains(e.target)) {
+            this.closeThemeMenu();
+          }
+        });
+
+        document.addEventListener('keydown', (e) => {
+          if (['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName)) return;
+          if (e.key === 'ArrowLeft') {
+            this.prevSlide();
+          } else if (e.key === 'ArrowRight') {
+            this.nextSlide();
+          }
+        });
+
+        document.addEventListener('fullscreenchange', () => {
+          const icon = document.getElementById('btn-fullscreen-icon');
+          const text = document.getElementById('btn-fullscreen-text');
+          if (document.fullscreenElement) {
+            if (icon) icon.className = 'fa-solid fa-compress text-brand-400';
+            if (text) text.innerText = 'Thu nhỏ';
+          } else {
+            if (icon) icon.className = 'fa-solid fa-expand text-brand-400';
+            if (text) text.innerText = 'Toàn màn hình';
+          }
+        });
+      }
+
+      startExamFromCover() {
+        const inputName = document.getElementById('input-student-fullname');
+        const nameVal = inputName ? inputName.value.trim() : this.studentName.trim();
+
+        if (!nameVal) {
+          this.showToast('⚠️ VUI LÒNG NHẬP HỌ VÀ TÊN HỌC SINH TRƯỚC KHI BẮT ĐẦU!');
+          if (inputName) {
+            inputName.focus();
+            inputName.classList.add('ring-2', 'ring-rose-500', 'border-rose-500');
+          }
+          return;
+        }
+
+        this.studentName = nameVal;
+        
+        const elTag = document.getElementById('header-student-tag');
+        const elName = document.getElementById('header-student-name');
+        if (elTag && elName) {
+          elName.innerText = this.studentName;
+          elTag.classList.remove('hidden');
+        }
+
+        if (this.isStudentMode) {
+          this.startTimerManual();
+        }
+
+        this.nextSlide();
+      }
+
+      toggleFullScreen() {
+        if (!document.fullscreenElement) {
+          document.documentElement.requestFullscreen().catch(err => {
+            this.showToast('Trình duyệt không hỗ trợ toàn màn hình.');
+          });
+        } else {
+          if (document.exitFullscreen) {
+            document.exitFullscreen();
+          }
+        }
+      }
+
+      openTocModal() {
+        this.renderTocGrid();
+        document.getElementById('modal-toc').classList.remove('hidden');
+      }
+
+      closeTocModal() {
+        document.getElementById('modal-toc').classList.add('hidden');
+      }
+
+      jumpToSlide(index) {
+        if (index === 0) {
+          this.currentIndex = 0;
+          this.renderCurrentSlide();
+          this.closeTocModal();
+          return;
+        }
+
+        if (!this.studentName && index > 0) {
+          this.showToast('⚠️ Vui lòng điền HỌ VÀ TÊN ở trang bìa trước khi vào câu hỏi!');
+          this.currentIndex = 0;
+          this.renderCurrentSlide();
+          this.closeTocModal();
+          return;
+        }
+
+        if (index >= 0 && index < this.slides.length) {
+          this.currentIndex = index;
+          this.renderCurrentSlide();
+          this.closeTocModal();
+        }
+      }
+
+      renderTocGrid() {
+        const container = document.getElementById('toc-grid-container');
+        if (!container) return;
+        container.innerHTML = '';
+
+        this.slides.forEach((s, idx) => {
+          const item = document.createElement('div');
+          const isCurrent = idx === this.currentIndex;
+
+          if (s.isCoverSlide) {
+            let activeClass = isCurrent ? 'ring-2 ring-brand-500 border-brand-500 bg-brand-500/20' : 'theme-box hover:border-brand-500/50';
+            item.className = `p-2.5 rounded-xl border cursor-pointer transition-all flex flex-col justify-between h-16 ${activeClass}`;
+            item.onclick = () => this.jumpToSlide(idx);
+            item.innerHTML = `
+              <div class="flex items-center justify-between">
+                <span class="font-extrabold text-xs text-brand-400"><i class="fa-solid fa-book-open mr-1"></i> Trang Bìa</span>
+                ${isCurrent ? '<span class="w-2 h-2 rounded-full bg-brand-500 animate-ping"></span>' : ''}
+              </div>
+              <span class="text-[9px] theme-text-muted truncate">Thông tin đề thi</span>
+            `;
+          } else {
+            let isAnswered = false;
+            let ans = this.userAnswers[s.id];
+            if (s.type === 'MCQ' || s.type === 'SA') {
+              isAnswered = (ans !== undefined && ans !== '');
+            } else if (s.type === 'TF') {
+              isAnswered = (ans && Object.keys(ans).length > 0);
+            } else if (s.type === 'Essay') {
+              isAnswered = (ans && typeof ans === 'object' && Object.values(ans).some(v => v && String(v).trim() !== ''));
+            }
+
+            let borderStyle = isCurrent ? 'ring-2 ring-brand-500 border-brand-500 bg-brand-500/20' : 
+                              isAnswered ? 'border-emerald-500/40 bg-emerald-500/10 hover:border-emerald-500' : 'theme-box hover:border-brand-500/50';
+
+            item.className = `p-2.5 rounded-xl border cursor-pointer transition-all flex flex-col justify-between h-16 ${borderStyle}`;
+            item.onclick = () => this.jumpToSlide(idx);
+
+            let typeLabel = 'Trắc nghiệm';
+            if (s.type === 'TF') typeLabel = 'Đúng / Sai';
+            else if (s.type === 'SA') typeLabel = 'Trả lời ngắn';
+            else if (s.type === 'Essay') typeLabel = 'Tự luận';
+
+            item.innerHTML = `
+              <div class="flex items-center justify-between">
+                <span class="font-bold text-xs text-brand-500">${s.title}</span>
+                ${isCurrent ? '<span class="w-2 h-2 rounded-full bg-brand-500 animate-ping"></span>' : 
+                  isAnswered ? '<span class="text-[10px] font-bold text-emerald-500"><i class="fa-solid fa-check"></i></span>' : ''}
+              </div>
+              <div class="flex items-center justify-between text-[9px] theme-text-muted">
+                <span>${typeLabel}</span>
+                <span class="${isAnswered ? 'text-emerald-400 font-semibold' : 'text-slate-400'}">${isAnswered ? 'Đã làm' : 'Chưa làm'}</span>
+              </div>
+            `;
+          }
+
+          container.appendChild(item);
+        });
+      }
+
+      initTheme() {
+        const savedTheme = localStorage.getItem('app_theme') || 'cyber';
+        this.setTheme(savedTheme, false);
+      }
+
+      setTheme(themeName, save = true) {
+        if (!['cyber', 'aurora', 'pearl'].includes(themeName)) themeName = 'cyber';
+        this.currentTheme = themeName;
+        document.body.setAttribute('data-theme', themeName);
+        if (save) localStorage.setItem('app_theme', themeName);
+
+        const iconEl = document.getElementById('current-theme-icon');
+        const nameEl = document.getElementById('current-theme-name');
+        
+        document.querySelectorAll('.theme-check').forEach(el => el.classList.add('hidden'));
+
+        if (themeName === 'cyber') {
+          if (iconEl) iconEl.innerHTML = '<i class="fa-solid fa-moon text-indigo-400"></i>';
+          if (nameEl) nameEl.innerText = 'Cyber';
+          const check = document.querySelector('#theme-opt-cyber .theme-check');
+          if (check) check.classList.remove('hidden');
+        } else if (themeName === 'aurora') {
+          if (iconEl) iconEl.innerHTML = '<i class="fa-solid fa-wand-magic-sparkles text-fuchsia-400"></i>';
+          if (nameEl) nameEl.innerText = 'Aurora';
+          const check = document.querySelector('#theme-opt-aurora .theme-check');
+          if (check) check.classList.remove('hidden');
+        } else if (themeName === 'pearl') {
+          if (iconEl) iconEl.innerHTML = '<i class="fa-solid fa-sun text-amber-500"></i>';
+          if (nameEl) nameEl.innerText = 'Ngọc Trai';
+          const check = document.querySelector('#theme-opt-pearl .theme-check');
+          if (check) check.classList.remove('hidden');
+        }
+
+        this.closeThemeMenu();
+      }
+
+      toggleThemeMenu() {
+        const menu = document.getElementById('theme-menu');
+        if (menu) menu.classList.toggle('hidden');
+      }
+
+      closeThemeMenu() {
+        const menu = document.getElementById('theme-menu');
+        if (menu) menu.classList.add('hidden');
+      }
+
+      startTimerManual() {
+        if (this.isTimerRunning || this.isExamLocked) return;
+        this.isTimerRunning = true;
+        document.getElementById('btn-start-timer').style.display = 'none';
+        this.timerInterval = setInterval(() => {
+          this.timerSecondsLeft--;
+          this.updateTimerDisplay();
+          if (this.timerSecondsLeft <= 0) {
+            clearInterval(this.timerInterval);
+            this.isTimerRunning = false;
+            this.finishExam();
+          }
+        }, 1000);
+      }
+
+      updateTimerDisplay() {
+        const display = document.getElementById('timer-display');
+        const m = Math.floor(this.timerSecondsLeft / 60);
+        const s = this.timerSecondsLeft % 60;
+        display.innerText = `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+      }
+
+      finishExam() {
+        this.isExamLocked = true;
+        if (this.timerInterval) clearInterval(this.timerInterval);
+        this.renderInteractiveSection(this.slides[this.currentIndex]);
+        this.showScoreModal();
+      }
+
+      calculateCurrentScore() {
+        let total = 0, earned = 0, html = '', detailTextArr = [];
+        let questionCount = 0;
+        
+        this.slides.forEach((s, i) => {
+          if (s.isCoverSlide) return;
+          questionCount++;
+          let st = '', ans = this.userAnswers[s.id];
+          if (s.type === 'MCQ') {
+            total++;
+            if (ans === undefined) { st = '<span class="text-amber-500 font-bold">Chưa làm</span>'; detailTextArr.push(`Câu ${questionCount}: Chưa làm`); }
+            else if (ans === s.correctIndex) { earned++; st = '<span class="text-emerald-500 font-bold">Đúng (+1đ)</span>'; detailTextArr.push(`Câu ${questionCount}: Đúng`); }
+            else { st = '<span class="text-rose-500 font-bold">Sai</span>'; detailTextArr.push(`Câu ${questionCount}: Sai`); }
+          } else if (s.type === 'TF') {
+            total++;
+            let itemPts = 0;
+            let totalItems = (s.tfItems || []).length;
+            if (totalItems > 0 && ans) {
+              (s.tfItems || []).forEach((item, subIdx) => {
+                if (ans[subIdx] === item.correct) itemPts += (1 / totalItems);
+              });
+              earned += itemPts;
+              st = `<span class="text-emerald-500 dark:text-emerald-400 font-bold">+${itemPts.toFixed(2)}đ</span>`;
+              detailTextArr.push(`Câu ${questionCount}: +${itemPts.toFixed(2)}đ`);
+            } else {
+              st = '<span class="text-amber-500 font-bold">Chưa làm</span>';
+              detailTextArr.push(`Câu ${questionCount}: Chưa làm`);
+            }
+          } else if (s.type === 'SA') {
+            total++;
+            let cleanUser = (ans || '').trim().replace(/\s+/g, '');
+            let cleanTarget = (s.correctAnswer || '').trim().replace(/\s+/g, '');
+            if (!ans) { st = '<span class="text-amber-500 font-bold">Chưa làm</span>'; detailTextArr.push(`Câu ${questionCount}: Chưa làm`); }
+            else if (cleanUser === cleanTarget) { earned++; st = '<span class="text-emerald-500 font-bold">Đúng (+1đ)</span>'; detailTextArr.push(`Câu ${questionCount}: Đúng`); }
+            else { st = '<span class="text-rose-500 font-bold">Sai</span>'; detailTextArr.push(`Câu ${questionCount}: Sai`); }
+          } else {
+            let hasAns = ans && typeof ans === 'object' && Object.values(ans).some(v => v && String(v).trim() !== '');
+            if (hasAns) {
+              let filledArr = [];
+              Object.keys(ans).forEach(k => {
+                if (ans[k] && String(ans[k]).trim()) {
+                  let label = (s.essayItems && s.essayItems[k]) ? s.essayItems[k].label : `Ý ${parseInt(k) + 1}`;
+                  filledArr.push(`${label}: ${String(ans[k]).trim()}`);
+                }
+              });
+              st = `<span class="text-purple-400 font-bold">Đã điền (${filledArr.length} ý)</span>`;
+              detailTextArr.push(`Câu ${questionCount} (Tự luận): ${filledArr.join('; ')}`);
+            } else {
+              st = '<span class="text-amber-500 font-bold">Chưa làm</span>';
+              detailTextArr.push(`Câu ${questionCount} (Tự luận): Chưa làm`);
+            }
+          }
+          html += `<div class="p-2.5 rounded-xl theme-box flex justify-between text-xs"><span class="font-bold text-brand-500">Câu ${questionCount} (${s.type})</span>${st}</div>`;
+        });
+        
+        let score = total > 0 ? (earned / total) * 10 : 0;
+        let scoreVal = Math.round(score * 10) / 10;
+        return { score: scoreVal, html, detailSummary: detailTextArr.join(' | ') };
+      }
+
+      showScoreModal() {
+        if (!this.studentName) {
+          const inputName = document.getElementById('input-student-fullname');
+          if (inputName && inputName.value.trim()) {
+            this.studentName = inputName.value.trim();
+          } else {
+            this.studentName = 'Học Sinh';
+          }
+        }
+
+        const stats = this.calculateCurrentScore();
+        document.getElementById('score-val').innerText = stats.score.toFixed(1);
+        document.getElementById('score-student-name').innerText = this.studentName;
+        document.getElementById('score-exam-title').innerText = this.examInfo ? this.examInfo.examName : 'Đề Thi';
+        document.getElementById('score-breakdown-list').innerHTML = stats.html;
+        
+        document.getElementById('modal-score').classList.remove('hidden');
+
+        if (this.googleFormUrl && !this.isSubmittedToGForm) {
+          this.sendDataToGoogleForm();
+        }
+      }
+
+      closeScoreModal() { document.getElementById('modal-score').classList.add('hidden'); }
+
+      async sendDataToGoogleForm() {
+        const badge = document.getElementById('sync-status-badge');
+        const stats = this.calculateCurrentScore();
+        
+        if (!this.studentName) {
+          this.showToast('⚠️ Chưa ghi nhận Họ và Tên học sinh!');
+          return;
+        }
+
+        if (!this.googleFormUrl) {
+          if (badge) {
+            badge.className = "px-2.5 py-1 rounded-xl bg-amber-500/20 text-amber-400 border border-amber-500/30 text-xs font-semibold";
+            badge.innerHTML = `<i class="fa-solid fa-circle-info"></i> Chưa cấu hình Google Form URL`;
+          }
+          this.showToast('ℹ️ Chưa có URL Google Form. Có thể cấu hình khi xuất file HTML.');
+          return;
+        }
+
+        if (badge) {
+          badge.className = "px-2.5 py-1 rounded-xl bg-sky-500/20 text-sky-400 border border-sky-500/30 text-xs font-semibold";
+          badge.innerHTML = `<i class="fa-solid fa-spinner animate-spin"></i> Đang gửi...`;
+        }
+
+        try {
+          if (this.googleFormUrl.includes('docs.google.com/forms')) {
+            const formData = new FormData();
+            if (this.entryNameId) formData.append(this.entryNameId, this.studentName);
+            if (this.entryScoreId) formData.append(this.entryScoreId, `${stats.score.toFixed(1)} / 10.0`);
+            if (this.entryDetailId) formData.append(this.entryDetailId, `[${this.examInfo ? this.examInfo.examName : 'Đề Thi'}] ${stats.detailSummary}`);
+
+            await fetch(this.googleFormUrl, {
+              method: 'POST',
+              mode: 'no-cors',
+              body: formData
+            });
+          } else {
+            const payload = {
+              studentName: this.studentName,
+              score: stats.score.toFixed(1),
+              examTitle: this.examInfo ? this.examInfo.examName : 'Đề thi',
+              details: stats.detailSummary,
+              timestamp: new Date().toLocaleString('vi-VN')
+            };
+
+            await fetch(this.googleFormUrl, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(payload)
+            });
+          }
+
+          this.isSubmittedToGForm = true;
+          if (badge) {
+            badge.className = "px-2.5 py-1 rounded-xl bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 text-xs font-bold";
+            badge.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-400"></i> Đã gửi kết quả!`;
+          }
+          this.showToast('✅ Đã đồng bộ kết quả bài làm thành công!');
+        } catch (err) {
+          console.error(err);
+          if (badge) {
+            badge.className = "px-2.5 py-1 rounded-xl bg-rose-500/20 text-rose-400 border border-rose-500/30 text-xs font-semibold";
+            badge.innerHTML = `<i class="fa-solid fa-circle-xmark"></i> Lỗi gửi kết quả`;
+          }
+          this.showToast('⚠️ Lỗi khi kết nối Google Form. Hãy kiểm tra lại URL.');
+        }
+      }
+
+      renderMath() {
+        if (window.MathJax) {
+          if (typeof window.MathJax.typesetPromise === 'function') {
+            window.MathJax.typesetPromise().catch(err => console.warn(err));
+          } else if (typeof window.MathJax.typeset === 'function') {
+            window.MathJax.typeset();
+          }
+        }
+      }
+
+      handleToggleSolution() {
+        const lockActive = (window.ENABLE_SOLUTION_LOCK !== undefined) ? window.ENABLE_SOLUTION_LOCK : this.enableSolutionLock;
+        if (this.isStudentMode && lockActive && !this.showSolution) {
+          const stats = this.calculateCurrentScore();
+          if (stats.score < 3.0) {
+            this.showToast(`🔒 Lời giải bị khóa! Cần đạt tối thiểu 3.0 điểm để mở (Điểm hiện tại: ${stats.score.toFixed(1)}/10)`);
+            return;
+          }
+        }
+        this.showSolution = !this.showSolution;
+        this.updateSolutionDrawerState();
+      }
+
+      updateSolutionDrawerState() {
+        const btnText = document.getElementById('sol-btn-text');
+        const icon = document.getElementById('sol-icon');
+        const drawer = document.getElementById('solution-drawer');
+
+        if (this.showSolution) {
+          btnText.innerText = 'Đóng lời giải'; 
+          icon.className = 'fa-solid fa-eye-slash text-amber-500 mr-1';
+          drawer.classList.remove('hidden');
+        } else {
+          btnText.innerText = 'Lời giải'; 
+          icon.className = 'fa-solid fa-lock text-amber-500 mr-1';
+          drawer.classList.add('hidden');
+        }
+        this.renderInteractiveSection(this.slides[this.currentIndex]);
+        this.renderMath();
+        this.reprocessTikZ();
+      }
+
+      cleanTeXText(str) {
+        if (!str) return '';
+        let s = str;
+
+        const protectedBlocks = [];
+        const saveBlock = (content) => {
+          protectedBlocks.push(content);
+          return `XPROTBLOCKX${protectedBlocks.length - 1}XPROTBLOCKX`;
+        };
+
+        // 1. Bảo vệ môi trường TikZ trước tiên để không bị lọc % comment hay lỗi escape
+        s = s.replace(/\\begin\{tikzpicture\}([\s\S]*?)\\end\{tikzpicture\}/g, (match) => {
+          return saveBlock(`<div class="tikz-container w-full flex justify-center my-2"><script type="text/tikz">\n${match}\n<\/script></div>`);
+        });
+
+        // 2. Bảo vệ ảnh \includegraphics với onerror fallback tránh vỡ khung ảnh
+        s = s.replace(/\\includegraphics(?:\[.*?\])?\{([^}]+)\}/g, (match, src) => {
+          return saveBlock(`<div class="tikz-img-container w-full flex justify-center my-2"><img src="${src}" onerror="this.style.display='none'" class="max-w-full max-h-[350px] h-auto rounded-xl border border-slate-700/30 bg-white p-2 shadow-lg" /></div>`);
+        });
+
+        // 3. Bảo vệ các thẻ HTML có sẵn
+        s = s.replace(/(<div[\s\S]*?<\/div>|<img[\s\S]*?\/>|<span[\s\S]*?<\/span>)/gi, (m) => saveBlock(m));
+
+        // 4. Bảo vệ khối công thức Toán Display & Inline Math
+        const mathEnvRegex = /\\begin\{(eqnarray\*?|align\*?|aligned|cases|array|matrix|pmatrix|bmatrix|vmatrix|equation\*?)\}([\s\S]*?)\\end\{\1\}/g;
+        s = s.replace(mathEnvRegex, (match) => saveBlock(match));
+
+        s = s.replace(/\$\$([\s\S]*?)\$\$/g, (match) => saveBlock(match));
+        s = s.replace(/\\\[([\s\S]*?)\\\]/g, (match) => saveBlock(match));
+
+        s = s.replace(/(^|[^\\])\$([^\$\n]+?)\$/g, (match, p1, p2) => (p1 || '') + saveBlock(`$${p2}$`));
+        s = s.replace(/\\\(([\s\S]*?)\\\)/g, (match) => saveBlock(match));
+
+        // 5. Loại bỏ comment TeX bên ngoài các khối bảo vệ
+        s = s.replace(/%\[.*?\]/g, '');
+
+        // 6. Mã hóa ký tự HTML an toàn bên ngoài khối toán
+        s = s.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+        // 7. Chuẩn hóa dấu ngoặc kép TeX
+        s = s.replace(/\\lq\s*\\lq\s*\{\}?|\\lq\s*\\lq|``/g, '“');
+        s = s.replace(/\\rq\s*\\rq\s*\{\}?|\\rq\s*\\rq|''/g, '”');
+        s = s.replace(/\\lq\s*\{\}?|`/g, '‘');
+        s = s.replace(/\\rq\s*\{\}?/g, '’');
+
+        // 8. Tự động chuyển đổi các ký hiệu toán & hàm lượng giác (\tan A, \sin B, \cos X, \cot Y, \triangle, \angle) đứng ngoài $...$ vào công thức toán
+        s = s.replace(/\\triangle\s*([A-Za-z0-9]+)/g, '$\\triangle $1$');
+        s = s.replace(/\\angle\s*([A-Za-z0-9]+)/g, '$\\angle $1$');
+        s = s.replace(/\\(tan|sin|cos|cot)\s*([\^A-Za-z0-9_\{\}\(\)\\]+)/g, (match, fn, arg) => `$\\${fn} ${arg}$`);
+
+        s = s.replace(/\\,/g, ' ');
+
+        // 9. Định dạng cấu trúc căn giữa và danh sách TeX
+        s = s.replace(/\\begin\{center\}/g, '<div class="w-full flex justify-center my-2 overflow-x-auto">');
+        s = s.replace(/\\end\{center\}/g, '</div>');
+        s = s.replace(/\\begin\{itemchoice\}/g, '<ul class="space-y-1 my-1.5">');
+        s = s.replace(/\\end\{itemchoice\}/g, '</ul>');
+        s = s.replace(/\\itemch/g, '<li class="text-xs opacity-90">');
+
+        s = this.parseTeXLists(s);
+
+        s = s.replace(/\\textit\{([^}]+)\}/g, '<em>$1</em>');
+        s = s.replace(/\\textbf\{([^}]+)\}/g, '<strong>$1</strong>');
+        s = s.replace(/\\\\/g, '<br/>');
+        s = s.replace(/\\par(?![a-zA-Z])/g, '<br/>');
+        s = s.replace(/\\noindent/g, '');
+
+        // 10. Phục hồi các khối bảo vệ ban đầu
+        while (s.includes('XPROTBLOCKX')) {
+          s = s.replace(/XPROTBLOCKX(\d+)XPROTBLOCKX/g, (_, idx) => protectedBlocks[parseInt(idx)]);
+        }
+
+        return s.trim();
+      }
+
+      parseTeXLists(text) {
+        let result = text;
+        const listRegex = /\\begin\{(enumerate|itemize)\}((?:(?!\\begin\{|\\end\{)[\s\S])*?)\\end\{\1\}/;
+        let maxIterations = 50; 
+        
+        while (listRegex.test(result) && maxIterations-- > 0) {
+          result = result.replace(listRegex, (match, envType, innerContent) => {
+            const rawItems = innerContent.split(/\\item\s*/);
+            let htmlItems = '';
+            for (let i = 0; i < rawItems.length; i++) {
+              let itemText = rawItems[i].trim();
+              if (itemText.length > 0) htmlItems += `<li>${itemText}</li>`;
+            }
+            const cssClass = envType === 'enumerate' ? 'tex-list-enum' : 'tex-list-item';
+            const tag = envType === 'enumerate' ? 'ol' : 'ul';
+            return `<${tag} class="${cssClass}">${htmlItems}</${tag}>`;
+          });
+        }
+        return result;
+      }
+
+      extractBraceContent(str, startIndex) {
+        let openIdx = str.indexOf('{', startIndex);
+        if (openIdx === -1) return null;
+        let depth = 0, inEscape = false;
+        for (let i = openIdx; i < str.length; i++) {
+          let char = str[i];
+          if (char === '\\' && !inEscape) { inEscape = true; continue; }
+          if (!inEscape) { if (char === '{') depth++; else if (char === '}') depth--; }
+          else inEscape = false;
+          if (depth === 0) return { content: str.substring(openIdx + 1, i), endIndex: i };
+        }
+        return null;
+      }
+
+      extractMultipleBraceGroups(str, startIndex, maxCount) {
+        let groups = []; let curr = startIndex;
+        for (let k = 0; k < maxCount; k++) {
+          let res = this.extractBraceContent(str, curr);
+          if (!res) break;
+          groups.push(res.content);
+          curr = res.endIndex + 1;
+        }
+        return groups;
+      }
+
+      parseExTestContent(texCode) {
+        const dethiRegex = /\\begin\{dethi\}(?:\[(.*?)\])?([\s\S]*?)\\end\{dethi\}/;
+        const dethiMatch = texCode.match(dethiRegex);
+        
+        let dethiInfo = {
+          department: "SỞ GD&ĐT THÀNH PHỐ HUẾ",
+          school: "TRƯỜNG THCS NGUYỄN ĐỨC CẢNH",
+          examName: "ĐỀ ÔN GIỮA HỌC KÌ I",
+          year: "2026 - 2027",
+          subject: "Toán 8",
+          duration: "45 phút",
+          examCode: ""
+        };
+
+        if (dethiMatch) {
+            let optStr = dethiMatch[1] || "";
+            let inner = dethiMatch[2] || "";
+
+            let timeMatch = optStr.match(/thoigian\s*=\s*([^,\]]+)/i) || optStr.match(/(\d+\s*phút|\d+)/i);
+            if (timeMatch) {
+              dethiInfo.duration = timeMatch[1].includes('phút') ? timeMatch[1] : `${timeMatch[1]} phút`;
+            }
+
+            let codeMatch = optStr.match(/made\s*=\s*([^,\]]+)/i);
+            if (codeMatch) {
+              dethiInfo.examCode = codeMatch[1].trim();
+            }
+
+            let cleanedInner = inner.replace(/%[^\n]*/g, '');
+            let braceRegex = /\{([^{}]*)\}/g;
+            let braces = [];
+            let m;
+            while ((m = braceRegex.exec(cleanedInner)) !== null) {
+              let val = m[1].replace(/\\&/g, '&').replace(/\$/g, '').trim();
+              if (val) braces.push(val);
+            }
+
+            if (braces.length < 5) {
+              let rawBraceRegex = /\{([^{}]*)\}/g;
+              let rawBraces = [];
+              while ((m = rawBraceRegex.exec(inner)) !== null) {
+                let val = m[1].replace(/\\&/g, '&').replace(/\$/g, '').trim();
+                if (val) rawBraces.push(val);
+              }
+              if (rawBraces[0]) dethiInfo.department = rawBraces[0];
+              if (rawBraces[1]) dethiInfo.school = rawBraces[1];
+              if (rawBraces[2]) dethiInfo.examName = rawBraces[2];
+              if (rawBraces[3]) dethiInfo.year = rawBraces[3];
+              if (rawBraces[4]) dethiInfo.subject = rawBraces[4];
+            } else {
+              if (braces[0]) dethiInfo.department = braces[0];
+              if (braces[1]) dethiInfo.school = braces[1];
+              if (braces[2]) dethiInfo.examName = braces[2];
+              if (braces[3]) dethiInfo.year = braces[3];
+              if (braces[4]) dethiInfo.subject = braces[4];
+            }
+        }
+        
+        this.examInfo = dethiInfo;
+        this.updateHeaderInfo();
+
+        let parsedSlides = [];
+        const totalQuestionMatches = (texCode.match(/\\begin\{(ex|bt)\}/g) || []).length;
+
+        parsedSlides.push({
+          id: 0,
+          isCoverSlide: true,
+          title: "THÔNG TIN ĐỀ THI",
+          type: "Môi trường dethi ex_test",
+          question: `
+            <div class="flex flex-col items-center justify-center space-y-4 py-2">
+              <div class="w-full max-w-4xl p-5 md:p-6 rounded-2xl theme-box border-2 border-brand-500/40 shadow-2xl space-y-4 relative overflow-hidden">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 pb-3 border-b border-slate-500/30 text-center">
+                  <div class="flex flex-col items-center justify-center space-y-1">
+                    <h4 class="text-xs md:text-sm font-extrabold uppercase tracking-wider text-brand-400">${dethiInfo.department}</h4>
+                    <h3 class="text-sm md:text-base font-black uppercase tracking-wide text-emerald-400">${dethiInfo.school}</h3>
+                    <div class="w-20 h-0.5 bg-gradient-to-r from-transparent via-brand-500 to-transparent mt-1"></div>
+                  </div>
+                  <div class="flex flex-col items-center justify-center space-y-1">
+                    <h2 class="text-base md:text-xl font-black uppercase text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-fuchsia-400">${dethiInfo.examName}</h2>
+                    <p class="text-xs font-bold text-cyan-400 uppercase tracking-widest">${dethiInfo.year ? 'NĂM HỌC ' + dethiInfo.year : ''}</p>
+                    <p class="text-xs font-semibold theme-text-muted">${dethiInfo.subject ? dethiInfo.subject : 'Môn: Toán'}</p>
+                  </div>
+                </div>
+
+                <div class="p-3.5 rounded-xl theme-box border-2 border-amber-500/50 shadow-lg space-y-1.5 text-left bg-amber-500/10">
+                  <label class="block text-xs font-extrabold text-amber-400 uppercase tracking-wider flex items-center gap-1.5">
+                    <i class="fa-solid fa-user-pen text-sm"></i> BẮT BUỘC: Nhập Họ và Tên học sinh
+                  </label>
+                  <input type="text" id="input-student-fullname" value="${this.studentName || ''}" oninput="app.studentName = this.value" placeholder="Ví dụ: Nguyễn Văn An - Lớp 8A1..." class="w-full theme-input rounded-xl p-2.5 text-sm font-bold focus:ring-2 focus:ring-amber-400 focus:outline-none border-amber-500/50" />
+                </div>
+
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 text-center text-xs">
+                  <div class="p-2.5 rounded-xl bg-slate-900/60 border border-slate-700/50">
+                    <span class="block text-[9px] uppercase font-bold theme-text-muted">Thời gian</span>
+                    <span class="font-extrabold text-amber-400 text-sm">${dethiInfo.duration}</span>
+                  </div>
+                  <div class="p-2.5 rounded-xl bg-slate-900/60 border border-slate-700/50">
+                    <span class="block text-[9px] uppercase font-bold theme-text-muted">Mã đề thi</span>
+                    <span class="font-extrabold text-fuchsia-400 text-sm">${dethiInfo.examCode || '101'}</span>
+                  </div>
+                  <div class="p-2.5 rounded-xl bg-slate-900/60 border border-slate-700/50">
+                    <span class="block text-[9px] uppercase font-bold theme-text-muted">Tổng số câu</span>
+                    <span class="font-extrabold text-cyan-400 text-sm">${totalQuestionMatches} Câu</span>
+                  </div>
+                  <div class="p-2.5 rounded-xl bg-slate-900/60 border border-slate-700/50">
+                    <span class="block text-[9px] uppercase font-bold theme-text-muted">Hình thức</span>
+                    <span class="font-extrabold text-emerald-400 text-sm">Trực tuyến</span>
+                  </div>
+                </div>
+
+                <div class="p-3 rounded-xl bg-gradient-to-r from-brand-500/10 via-purple-500/10 to-amber-500/10 border border-slate-500/20 text-xs leading-relaxed theme-text-muted space-y-1">
+                  <div class="font-bold text-amber-400 flex items-center gap-1.5"><i class="fa-solid fa-circle-info"></i> Hướng dẫn thí sinh làm bài:</div>
+                  <p>• Nhập đầy đủ <b>Họ và Tên</b> ở ô phía trên trước khi bắt đầu.</p>
+                  <p>• Sau khi hoàn thành, Bảng điểm sẽ tự động đồng bộ gửi về cho <b>Giáo viên & Phụ huynh</b>.</p>
+                  <p>• Sử dụng các phím mũi tên <b>Trái (←) / Phải (→)</b> trên bàn phím để chuyển câu hỏi.</p>
+                </div>
+              </div>
+
+              <button onclick="app.startExamFromCover()" class="px-8 py-3 rounded-2xl bg-gradient-to-r from-brand-600 via-fuchsia-600 to-amber-500 text-white font-extrabold text-base shadow-2xl hover:scale-105 active:scale-95 transition-all flex items-center gap-2.5 cursor-pointer">
+                <span>BẮT ĐẦU LÀM BÀI THI</span>
+                <i class="fa-solid fa-arrow-right animate-pulse"></i>
+              </button>
+            </div>
+          `,
+          options: [],
+          solution: ""
+        });
+
+        const blockRegex = /\\begin\{(ex|bt)\}([\s\S]*?)\\end\{\1\}/g;
+        let match; let idx = 1;
+
+        while ((match = blockRegex.exec(texCode)) !== null) {
+          let envType = match[1];
+          let rawContent = match[2];
+          let body = rawContent.replace(/%\[.*?\]/g, '').trim();
+          
+          body = body.replace(/^(?:\\textbf\{)?\s*(?:Câu|Bài)\s*\d+\s*[.:]?\s*(?:\})?\s*(?:\\par\s*|\\\\\s*|\n\s*)?/i, '');
+          
+          let solution = "Chưa có lời giải.";
+          let loigiaiIdx = body.indexOf('\\loigiai');
+          
+          if (loigiaiIdx !== -1) {
+            let solRes = this.extractBraceContent(body, loigiaiIdx);
+            if (solRes) {
+              solution = solRes.content;
+              body = body.substring(0, loigiaiIdx) + body.substring(solRes.endIndex + 1);
+            }
+          }
+
+          let qType = envType === 'bt' ? 'Essay' : 'MCQ';
+          let options = [], correctIndex = 0, tfItems = [], saAnswer = "", essayItems = [];
+          
+          if (body.includes('\\choiceTF')) {
+            qType = 'TF';
+            let choiceIdx = body.indexOf('\\choiceTF');
+            body = body.substring(0, choiceIdx).trim();
+            let braceRes = this.extractMultipleBraceGroups(rawContent.substring(rawContent.indexOf('\\choiceTF')), 0, 4);
+            const labels = ['a', 'b', 'c', 'd'];
+            braceRes.forEach((grp, i) => {
+              let isTrue = grp.includes('\\True');
+              let cleanItem = grp.replace(/\\True/g, '').trim();
+              tfItems.push({
+                label: labels[i],
+                statement: this.cleanTeXText(cleanItem),
+                correct: isTrue
+              });
+            });
+          } else if (body.includes('\\choice')) {
+            qType = 'MCQ';
+            let choiceIdx = body.indexOf('\\choice');
+            body = body.substring(0, choiceIdx).trim();
+            let braceRes = this.extractMultipleBraceGroups(rawContent.substring(rawContent.indexOf('\\choice')), 0, 4);
+            const optPrefixes = ['A. ', 'B. ', 'C. ', 'D. '];
+            braceRes.forEach((grp, i) => {
+              if (grp.includes('\\True')) correctIndex = i;
+              options.push(optPrefixes[i] + this.cleanTeXText(grp.replace(/\\True/g, '').trim()));
+            });
+          } else {
+            // SỬA LỖI \shortans CHỨA CÔNG THỨC TOÁN PHỨC TẠP LỒNG NGOẶC NHỌN {} (VD: \dfrac{4\sqrt{3}}{3})
+            let saIdx = body.indexOf('\\shortans');
+            if (saIdx !== -1) {
+              qType = 'SA';
+              let braceRes = this.extractBraceContent(body, saIdx);
+              if (braceRes) {
+                saAnswer = braceRes.content.trim();
+                let matchEnd = braceRes.endIndex + 1;
+                let preStr = body.substring(0, saIdx).replace(/(?:\\par\s*)+$/, '');
+                body = (preStr + body.substring(matchEnd)).trim();
+              }
+            } else if (qType === 'Essay') {
+              const enumMatch = body.match(/\\begin\{(enumerate|itemize)\}([\s\S]*?)\\end\{\1\}/);
+              if (enumMatch) {
+                const rawItems = enumMatch[2].split(/\\item\s*/);
+                let itemCount = 1;
+                for (let i = 0; i < rawItems.length; i++) {
+                  let itemText = rawItems[i].trim();
+                  if (itemText.length > 0) {
+                    essayItems.push({
+                      label: `Ý ${itemCount++}`,
+                      text: this.cleanTeXText(itemText)
+                    });
+                  }
+                }
+              }
+              if (essayItems.length === 0) {
+                essayItems.push({
+                  label: `Đáp số / Kết quả`,
+                  text: ''
+                });
+              }
+            }
+          }
+
+          parsedSlides.push({
+            id: idx++, title: `Câu ${idx - 1}`, type: qType,
+            question: this.cleanTeXText(body),
+            options: options, correctIndex: correctIndex,
+            tfItems: tfItems, correctAnswer: this.cleanTeXText(saAnswer), essayItems: essayItems,
+            solution: this.cleanTeXText(solution)
+          });
+        }
+        return parsedSlides;
+      }
+
+      updateHeaderInfo() {
+        if (!this.examInfo) return;
+        const elSchool = document.getElementById('header-school-name');
+        const elDept = document.getElementById('header-dept-name');
+        const elSubject = document.getElementById('header-subject-name');
+        const elBadge = document.getElementById('badge-app-mode');
+
+        if (elDept) elDept.innerText = this.examInfo.department;
+        if (elSchool) elSchool.innerText = this.examInfo.school.toUpperCase();
+        
+        if (elSubject) {
+            if (this.examInfo.subject) {
+                elSubject.innerText = `• Môn: ${this.examInfo.subject}`;
+                elSubject.classList.remove('hidden');
+            } else {
+                elSubject.classList.add('hidden');
+            }
+        }
+        
+        if (elBadge) {
+            let badgeText = this.examInfo.examName;
+            if (this.examInfo.year) badgeText += ` (${this.examInfo.year})`;
+            elBadge.innerText = badgeText;
+        }
+      }
+
+      loadSampleExTestPrompt() {
+        this.slides = this.parseExTestContent(this.rawSampleTeX);
+        this.currentIndex = 0; this.userAnswers = {};
+        this.renderCurrentSlide(); this.closeImportModal();
+      }
+
+      openImportModal() { document.getElementById('import-tex-input').value = this.rawSampleTeX; document.getElementById('modal-import').classList.remove('hidden'); }
+      closeImportModal() { document.getElementById('modal-import').classList.add('hidden'); }
+      
+      processImportedTeX() {
+        const code = document.getElementById('import-tex-input').value;
+        this.slides = this.parseExTestContent(code);
+        this.currentIndex = 0; this.userAnswers = {};
+        this.renderCurrentSlide(); this.closeImportModal();
+        this.showToast(`Đã nạp thành công ${this.slides.length - 1} câu hỏi & Trang Bìa!`);
+      }
+
+      renderCurrentSlide() {
+        if (this.slides.length === 0) return;
+        const slide = this.slides[this.currentIndex];
+
+        const problemCol = document.getElementById('problem-column');
+        const interactiveCol = document.getElementById('interactive-column');
+        const btnSolution = document.getElementById('btn-toggle-solution');
+        const headerSubInfo = document.getElementById('header-sub-info');
+
+        if (slide.isCoverSlide) {
+          if (headerSubInfo) headerSubInfo.classList.remove('hidden');
+
+          document.getElementById('badge-question-num').innerText = "BÌA ĐỀ THI";
+          document.getElementById('badge-type').innerText = "Môi trường dethi ex_test";
+          document.getElementById('slide-title').innerText = "";
+          document.getElementById('slide-question-body').innerHTML = slide.question;
+
+          problemCol.className = 'lg:col-span-12 flex flex-col gap-3';
+          interactiveCol.classList.add('hidden');
+          btnSolution.classList.add('hidden');
+          document.getElementById('solution-drawer').classList.add('hidden');
+        } else {
+          if (headerSubInfo) headerSubInfo.classList.add('hidden');
+
+          document.getElementById('badge-question-num').innerText = slide.title;
+          
+          let typeText = 'Trắc nghiệm 4 lựa chọn';
+          if (slide.type === 'TF') typeText = 'Trắc nghiệm Đúng / Sai';
+          else if (slide.type === 'SA') typeText = 'Trả lời ngắn';
+          else if (slide.type === 'Essay') typeText = 'Bài tập tự luận';
+          document.getElementById('badge-type').innerText = typeText;
+
+          problemCol.className = 'lg:col-span-7 flex flex-col gap-3';
+          interactiveCol.classList.remove('hidden');
+          btnSolution.classList.remove('hidden');
+          
+          document.getElementById('slide-title').innerText = slide.title;
+          document.getElementById('slide-question-body').innerHTML = slide.question;
+          document.getElementById('slide-solution-body').innerHTML = slide.solution;
+          
+          const drawer = document.getElementById('solution-drawer');
+          if (this.showSolution) drawer.classList.remove('hidden');
+          else drawer.classList.add('hidden');
+
+          this.renderInteractiveSection(slide);
+        }
+        
+        this.renderMath();
+        this.reprocessTikZ();
+
+        document.getElementById('presentation-progress').style.width = `${((this.currentIndex + 1) / this.slides.length) * 100}%`;
+      }
+      
+      reprocessTikZ() {
+          setTimeout(() => {
+              if (typeof processTikZScripts === 'function') {
+                  document.querySelectorAll('.tikz-container svg').forEach(svg => svg.remove());
+                  processTikZScripts();
+              }
+          }, 100);
+      }
+
+      setEssayAnswer(slideId, itemIdx, val) {
+        if (this.isExamLocked) return;
+        if (!this.userAnswers[slideId] || typeof this.userAnswers[slideId] !== 'object') {
+          this.userAnswers[slideId] = {};
+        }
+        this.userAnswers[slideId][itemIdx] = val;
+      }
+
+      renderInteractiveSection(slide) {
+        if (slide.isCoverSlide) return;
+        const container = document.getElementById('interactive-content');
+        container.innerHTML = '';
+        
+        if (slide.type === 'MCQ') {
+          const grid = document.createElement('div');
+          grid.className = 'grid grid-cols-1 gap-2';
+          (slide.options || []).forEach((opt, idx) => {
+            const btn = document.createElement('button');
+            const isSelected = this.userAnswers[slide.id] === idx;
+            const isCorrect = idx === slide.correctIndex;
+            
+            let borderClass = isSelected ? 'border-brand-500 bg-brand-500/20 text-brand-400 font-bold shadow-lg ring-2 ring-brand-500/40' : 'theme-box hover:border-brand-500/50 hover:bg-slate-800/40';
+            
+            let radioHtml = `
+              <div class="w-4 h-4 rounded-full border-2 border-slate-500/50 flex items-center justify-center shrink-0 transition-all duration-200 group-hover:border-brand-400">
+                <div class="w-1.5 h-1.5 rounded-full bg-transparent"></div>
+              </div>
+            `;
+
+            if (isSelected) {
+              radioHtml = `
+                <div class="w-4 h-4 rounded-full border-2 border-brand-400 bg-gradient-to-tr from-brand-600 to-fuchsia-500 flex items-center justify-center shrink-0 shadow-[0_0_10px_rgba(99,102,241,0.8)] scale-110 transition-transform">
+                  <div class="w-1.5 h-1.5 rounded-full bg-white shadow-sm"></div>
+                </div>
+              `;
+            }
+
+            if (this.showSolution) {
+              if (isCorrect) {
+                borderClass = 'border-emerald-500 bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 font-bold ring-2 ring-emerald-500/40';
+                radioHtml = `
+                  <div class="w-4 h-4 rounded-full border-2 border-emerald-400 bg-emerald-500 flex items-center justify-center shrink-0 shadow-[0_0_10px_rgba(16,185,129,0.8)]">
+                    <i class="fa-solid fa-check text-[9px] text-white font-bold"></i>
+                  </div>
+                `;
+              } else if (isSelected) {
+                borderClass = 'border-rose-500 bg-rose-500/20 text-rose-600 dark:text-rose-400 font-bold ring-2 ring-rose-500/40';
+                radioHtml = `
+                  <div class="w-4 h-4 rounded-full border-2 border-rose-400 bg-rose-500 flex items-center justify-center shrink-0 shadow-[0_0_10px_rgba(244,63,94,0.8)]">
+                    <i class="fa-solid fa-xmark text-[9px] text-white font-bold"></i>
+                  </div>
+                `;
+              }
+            }
+
+            btn.className = `w-full text-left p-3 rounded-xl border text-xs md:text-sm transition-all duration-200 group ${borderClass}`;
+            btn.innerHTML = `
+              <div class="flex items-center gap-2.5">
+                ${radioHtml}
+                <div class="flex-1 leading-relaxed font-medium">${opt}</div>
+              </div>
+            `;
+
+            btn.onclick = () => { 
+              if(!this.isExamLocked) { 
+                this.userAnswers[slide.id] = idx; 
+                this.renderInteractiveSection(slide); 
+              }
+            };
+            grid.appendChild(btn);
+          });
+          container.appendChild(grid);
+        } else if (slide.type === 'TF') {
+          const list = document.createElement('div');
+          list.className = 'space-y-1.5';
+          if (!this.userAnswers[slide.id]) this.userAnswers[slide.id] = {};
+
+          (slide.tfItems || []).forEach((item, idx) => {
+            const userChoice = this.userAnswers[slide.id][idx];
+            const row = document.createElement('div');
+            row.className = 'p-2 rounded-xl theme-box flex items-center justify-between gap-2 text-xs';
+            
+            let trueBtn = userChoice === true ? 'bg-emerald-600 text-white' : 'theme-box text-slate-400';
+            let falseBtn = userChoice === false ? 'bg-rose-600 text-white' : 'theme-box text-slate-400';
+
+            if (this.showSolution) {
+              if (item.correct) trueBtn = 'bg-emerald-600 text-white ring-2 ring-emerald-400 font-bold';
+              else falseBtn = 'bg-emerald-600 text-white ring-2 ring-emerald-400 font-bold';
+            }
+
+            row.innerHTML = `
+              <span class="font-medium"><strong>${item.label})</strong> ${item.statement}</span>
+              <div class="flex gap-1 shrink-0">
+                <button onclick="app.setTFChoice(${slide.id}, ${idx}, true)" class="px-2 py-0.5 rounded-md ${trueBtn} text-[10px] font-bold">Đúng</button>
+                <button onclick="app.setTFChoice(${slide.id}, ${idx}, false)" class="px-2 py-0.5 rounded-md ${falseBtn} text-[10px] font-bold">Sai</button>
+              </div>
+            `;
+            list.appendChild(row);
+          });
+          container.appendChild(list);
+        } else if (slide.type === 'SA') {
+          const val = this.userAnswers[slide.id] || '';
+          container.innerHTML = `
+            <div class="space-y-2">
+              <label class="block text-xs font-semibold theme-text-muted">Nhập kết quả/đáp số của bạn:</label>
+              <input type="text" value="${val}" onchange="app.userAnswers[${slide.id}]=this.value" class="w-full theme-input rounded-xl p-2.5 text-sm font-mono text-amber-500 dark:text-amber-300 focus:border-amber-400 focus:outline-none" placeholder="Nhập đáp số..." />
+              ${this.showSolution ? `<div class="p-2.5 rounded-xl bg-emerald-500/20 border border-emerald-500/30 text-emerald-600 dark:text-emerald-400 text-xs font-bold flex items-center gap-2"><i class="fa-solid fa-circle-check text-base"></i> <span>Đáp số đúng: ${slide.correctAnswer}</span></div>` : ''}
+            </div>
+          `;
+        } else if (slide.type === 'Essay') {
+          const list = document.createElement('div');
+          list.className = 'space-y-2.5';
+          if (!this.userAnswers[slide.id] || typeof this.userAnswers[slide.id] !== 'object') {
+            this.userAnswers[slide.id] = {};
+          }
+
+          const items = (slide.essayItems && slide.essayItems.length > 0) 
+            ? slide.essayItems 
+            : [{ label: 'Đáp số / Kết quả', text: '' }];
+
+          items.forEach((item, subIdx) => {
+            const userVal = this.userAnswers[slide.id][subIdx] || '';
+            const row = document.createElement('div');
+            row.className = 'p-3 rounded-xl theme-box space-y-1.5';
+            row.innerHTML = `
+              <div class="flex items-center justify-between text-xs font-semibold text-brand-400">
+                <span class="flex items-center gap-1.5"><i class="fa-solid fa-pen-to-square text-amber-500"></i> ${item.label}</span>
+              </div>
+              <input type="text" 
+                value="${String(userVal).replace(/"/g, '&quot;')}" 
+                oninput="app.setEssayAnswer(${slide.id}, ${subIdx}, this.value)" 
+                class="w-full theme-input rounded-xl p-2.5 text-sm font-mono text-amber-500 dark:text-amber-300 focus:border-amber-400 focus:outline-none" 
+                placeholder="Nhập số / kết quả cho ${item.label}..." />
+            `;
+            list.appendChild(row);
+          });
+
+          container.appendChild(list);
+        }
+
+        this.renderMath();
+      }
+
+      setTFChoice(slideId, itemIdx, choice) {
+        if (this.isExamLocked) return;
+        if (!this.userAnswers[slideId]) this.userAnswers[slideId] = {};
+        this.userAnswers[slideId][itemIdx] = choice;
+        this.renderInteractiveSection(this.slides[this.currentIndex]);
+      }
+
+      nextSlide() { 
+        if (this.currentIndex === 0 && !this.studentName) {
+          const inputName = document.getElementById('input-student-fullname');
+          if (inputName && inputName.value.trim()) {
+            this.studentName = inputName.value.trim();
+          } else {
+            this.startExamFromCover();
+            return;
+          }
+        }
+        if (this.currentIndex < this.slides.length - 1) { 
+          this.currentIndex++; 
+          this.renderCurrentSlide(); 
+        } 
+      }
+      
+      prevSlide() { if (this.currentIndex > 0) { this.currentIndex--; this.renderCurrentSlide(); } }
+
+      checkAppPermissions() {
+        if (window.IS_STUDENT_MODE) {
+          this.isStudentMode = true;
+          this.enableSolutionLock = window.ENABLE_SOLUTION_LOCK !== undefined ? window.ENABLE_SOLUTION_LOCK : false;
+          
+          document.querySelectorAll('.teacher-only').forEach(el => el.style.display = 'none');
+          const badge = document.getElementById('badge-app-mode');
+          if (badge) {
+            badge.className = 'text-[10px] px-2 py-0.5 rounded-full bg-cyan-500/20 text-cyan-500 border border-cyan-500/40 font-semibold shadow-sm';
+          }
+        }
+      }
+
+      openExportModal() { document.getElementById('modal-export').classList.remove('hidden'); }
+      closeExportModal() { document.getElementById('modal-export').classList.add('hidden'); }
+
+      exportHTML(mode) {
+        const cfgTimer = parseInt(document.getElementById('export-cfg-timer').value) || 45;
+        const gformUrl = document.getElementById('export-cfg-gform-url').value.trim();
+        const entryName = document.getElementById('export-cfg-entry-name').value.trim();
+        const entryScore = document.getElementById('export-cfg-entry-score').value.trim();
+        const entryDetail = document.getElementById('export-cfg-entry-detail').value.trim();
+
+        this.closeExportModal();
+        let cloneDoc = document.documentElement.cloneNode(true);
+        
+        cloneDoc.querySelectorAll('.tikz-container svg').forEach(svg => svg.remove());
+        
+        let flagScript = cloneDoc.querySelector('#student-mode-flag');
+        if (!flagScript) {
+          flagScript = document.createElement('script');
+          flagScript.id = 'student-mode-flag';
+          cloneDoc.querySelector('head').appendChild(flagScript);
+        }
+        
+        const infoData = JSON.stringify(this.examInfo).replace(/</g, '\\u003c');
+        const slidesData = JSON.stringify(this.slides).replace(/</g, '\\u003c');
+
+        const isStudent = (mode === 'student-lock' || mode === 'student-free');
+        const lockSolution = (mode === 'student-lock');
+
+        flagScript.textContent = `
+          window.IS_STUDENT_MODE = ${isStudent};
+          window.ENABLE_SOLUTION_LOCK = ${lockSolution};
+          window.PRELOADED_EXAM_INFO = ${infoData}; 
+          window.PRELOADED_SLIDES = ${slidesData};
+          window.PRELOADED_EXAM_CFG = { 
+            timerMinutes: ${cfgTimer},
+            googleFormUrl: "${gformUrl}",
+            entryNameId: "${entryName}",
+            entryScoreId: "${entryScore}",
+            entryDetailId: "${entryDetail}"
+          };
+        `;
+
+        const blob = new Blob(["<!DOCTYPE html>\n" + cloneDoc.outerHTML], { type: 'text/html' });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+
+        let fileName = 'DeThi_GiaoVien.html';
+        if (mode === 'student-lock') fileName = 'DeThi_HocSinh_KhoaLoiGiai.html';
+        else if (mode === 'student-free') fileName = 'DeThi_HocSinh_TuDo.html';
+
+        a.href = URL.createObjectURL(blob);
+        a.download = fileName;
+        a.click();
+
+        if (mode === 'student-lock') this.showToast('Đã tải BẢN HỌC SINH (Khóa lời giải < 3.0 điểm)!');
+        else if (mode === 'student-free') this.showToast('Đã tải BẢN HỌC SINH (Tự do xem lời giải)!');
+        else this.showToast('Đã tải BẢN GIÁO VIÊN!');
+      }
+
+      showToast(msg) {
+        const container = document.getElementById('toast-container');
+        const toast = document.createElement('div');
+        toast.className = 'glass-card px-3.5 py-2 rounded-xl text-xs font-semibold shadow-xl border border-slate-500/30 flex items-center gap-2 animate-bounce';
+        toast.innerHTML = `<i class="fa-solid fa-circle-info text-brand-500"></i> ${msg}`;
+        container.appendChild(toast);
+        setTimeout(() => toast.remove(), 2800);
+      }
+    }
+
+    let app;
+    window.addEventListener('DOMContentLoaded', () => { app = new LaTeXPresenterApp(); app.init(); });
+  </script>
+
+</body></html>
